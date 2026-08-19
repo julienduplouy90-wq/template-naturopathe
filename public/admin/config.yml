@@ -18,10 +18,12 @@ backend:
   repo: julienduplouy90-wq/template-naturopathe
   branch: main
   # Authentificateur partage par tous les sites de l'agence. A installer une
-  # seule fois, puis a recopier tel quel dans chaque nouveau site client.
+  # seule fois (voir docs/mise-en-ligne.md, partie B), puis a recopier tel quel
+  # dans chaque nouveau site client.
   # Decommenter des que le worker repond, pas avant : un `base_url` qui pointe
   # dans le vide casse le bouton « Se connecter avec GitHub ».
-  # base_url: https://auth.elyostudio.fr
+  # Ne pas oublier d'ajouter le domaine du site a ALLOWED_DOMAINS du worker.
+  # base_url: https://sveltia-cms-auth.SOUS-DOMAINE.workers.dev
   commit_messages:
     create: 'Contenu : ajout de {{collection}} « {{slug}} »'
     update: 'Contenu : mise a jour de {{collection}} « {{slug}} »'

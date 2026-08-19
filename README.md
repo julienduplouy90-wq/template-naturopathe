@@ -79,16 +79,14 @@ Le CMS est destiné aux clientes. Elles cliquent sur **« Se connecter avec GitH
 jamais de jeton. Cela demande une infrastructure d'authentification, **à installer une seule fois
 pour toute l'agence** puis réutilisée par tous les sites clients.
 
-**Le montage, une fois pour toutes :**
+**Le montage, une fois pour toutes**, détaillé dans [docs/mise-en-ligne.md](docs/mise-en-ligne.md),
+partie B. Dans l'ordre, qui compte :
 
-1. **Une application OAuth GitHub**, sur le compte de l'agence :
-   `Settings` → `Developer settings` → `OAuth Apps` → `New OAuth App`.
-   URL de rappel : `https://auth.elyostudio.fr/callback` (l'adresse du worker ci-dessous).
-   Garder l'identifiant client et le secret client.
-2. **L'authentificateur** [`sveltia/sveltia-cms-auth`](https://github.com/sveltia/sveltia-cms-auth),
-   un worker Cloudflare gratuit. Le déployer, y déclarer `GITHUB_CLIENT_ID`, `GITHUB_CLIENT_SECRET`
-   et `ALLOWED_DOMAINS`, puis lui donner un sous-domaine stable, par exemple `auth.elyostudio.fr`.
-3. **Décommenter `base_url`** dans `public/admin/config.yml`. C'est la seule ligne à recopier dans
+1. Déployer le worker [`sveltia/sveltia-cms-auth`](https://github.com/sveltia/sveltia-cms-auth)
+   sur Cloudflare. Il renvoie son adresse.
+2. Créer l'application OAuth GitHub, avec cette adresse suivie de `/callback` comme URL de rappel.
+3. Déclarer `GITHUB_CLIENT_ID`, `GITHUB_CLIENT_SECRET` et `ALLOWED_DOMAINS` sur le worker.
+4. Décommenter `base_url` dans `public/admin/config.yml`. C'est la seule ligne à recopier dans
    chaque nouveau site client.
 
 Tant que `base_url` est absent, seule la connexion par jeton personnel fonctionne : pratique pour
