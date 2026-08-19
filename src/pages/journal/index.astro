@@ -1,0 +1,88 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import EnTetePage from '../../components/EnTetePage.astro';
+import BandeauRdv from '../../components/BandeauRdv.astro';
+import { lien } from '../../data/client.js';
+import { dateLisible } from '../../data/dates.js';
+
+const fleche = `<svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M1 6h9M6.5 2.5 10 6l-3.5 3.5"/></svg>`;
+
+const articles = (await getCollection('journal', ({ data }) => !data.brouillon))
+  .sort((a, b) => b.data.date - a.data.date);
+---
+
+<Base
+  titre="Journal"
+  description="Ce que je regarde en séance, expliqué en détail : le petit déjeuner, la lumière du soir, la fatigue après un bilan sanguin normal."
+>
+  <EnTetePage
+    oeil="Qu’est-ce que je regarde ?"
+    titre="Ce qui se passe vraiment en séance."
+    chapo="Des textes courts sur les leviers que j’utilise le plus souvent. Ils ne remplacent pas une consultation, mais ils vous disent à quoi vous attendre."
+  />
+
+  <section class="section">
+    <div class="contenant">
+      {articles.length === 0 ? (
+        <p class="chapo vide">Le premier article arrive bientôt.</p>
+      ) : (
+        <ul class="liste">
+          {articles.map((a, i) => (
+            <li class="reveler" style={`transition-delay: ${i * 80}ms`}>
+              <a class="article" href={lien(`journal/${a.id}/`)}>
+                <p class="micro article__meta chiffres">
+                  <span>{dateLisible(a.data.date)}</span>
+                  <span class="article__motif">{a.data.motif}</span>
+                  <span>{a.data.lecture} de lecture</span>
+                </p>
+                <h2 class="titre-2 article__titre">{a.data.titre}</h2>
+                <p class="chapo article__chapo">{a.data.chapo}</p>
+                <span class="article__lien">
+                  Lire
+                  <span class="article__fleche" aria-hidden="true" set:html={fleche} />
+                </span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  </section>
+
+  <BandeauRdv />
+</Base>
+
+<style>
+  .liste { display: grid; gap: 0; }
+  .article {
+    display: block; text-decoration: none;
+    padding-block: clamp(2rem, 4vw, 2.75rem);
+    border-top: 1px solid var(--filet);
+    transition: background-color var(--t-moyen) var(--courbe);
+  }
+  .liste > li:last-child .article { border-bottom: 1px solid var(--filet); }
+  .article:hover { background: var(--voile); }
+  .article__meta {
+    display: flex; flex-wrap: wrap; align-items: center; gap: var(--pas-3);
+    color: var(--second); letter-spacing: .04em;
+  }
+  .article__motif {
+    padding: .15rem .55rem; border-radius: var(--r-pill);
+    background: var(--brume); color: var(--encre);
+  }
+  .article__titre { margin-block: var(--pas-3); max-width: 26ch; }
+  .article__chapo { max-width: 62ch; }
+  .article__lien {
+    display: inline-flex; align-items: center; gap: var(--pas-3);
+    margin-top: var(--pas-4); font-weight: 500; font-size: .95rem; color: var(--accent);
+  }
+  .article__fleche {
+    display: grid; place-items: center;
+    width: 1.6rem; height: 1.6rem; border-radius: 50%;
+    background: var(--accent); color: var(--voile);
+    transition: transform var(--t-moyen) var(--courbe);
+  }
+  .article:hover .article__fleche { transform: translateX(3px); }
+  .vide { padding-block: var(--pas-6); }
+</style>

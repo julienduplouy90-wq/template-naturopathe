@@ -1,0 +1,48 @@
+{
+  "identite": {
+    "nom": "Léa Cazaux",
+    "initiales": "LC",
+    "metier": "Naturopathe",
+    "ville": "Juillan",
+    "villeReference": "Tarbes",
+    "departement": "Hautes-Pyrénées",
+    "depuis": 2018,
+    "siret": "000 000 000 00000",
+    "accepteNouveaux": true
+  },
+  "contact": {
+    "adresse": "8 avenue de la Bigorre",
+    "codePostal": "65290",
+    "telephone": "06 00 00 00 00",
+    "telephoneLien": "+33600000000",
+    "email": "contact@lea-cazaux-naturopathe.fr",
+    "agenda": "",
+    "acces": "Stationnement gratuit devant le cabinet, accès de plain-pied.",
+    "distance": "À 5 minutes de Tarbes, en direction de l’aéroport."
+  },
+  "horaires": [
+    { "jours": "Mardi au vendredi", "h": "9 h à 19 h" },
+    { "jours": "Samedi", "h": "9 h à 13 h" },
+    { "jours": "Lundi et dimanche", "h": "Fermé" }
+  ],
+  "delaiReponse": "48 h ouvrées",
+  "formation": {
+    "heures": 1200,
+    "ecole": "Formation de naturopathie en 1 200 heures",
+    "complements": ["Microbiote et digestion", "Accompagnement du cycle féminin"]
+  },
+  "zone": [
+    "Tarbes",
+    "Juillan",
+    "Ibos",
+    "Odos",
+    "Séméac",
+    "Aureilhan",
+    "Laloubère",
+    "Bordères-sur-l’Échez",
+    "Lourdes",
+    "Vic-en-Bigorre",
+    "Bagnères-de-Bigorre"
+  ],
+  "demo": true
+}

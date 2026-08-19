@@ -1,0 +1,66 @@
+---
+import Base from '../layouts/Base.astro';
+import EnTetePage from '../components/EnTetePage.astro';
+import { identite, contact, lien } from '../data/client.js';
+---
+
+<Base
+  titre="Politique de confidentialité"
+  description="Ce site ne dépose aucun cookie, n’utilise aucun traceur et n’enregistre aucune donnée. Détail du traitement des informations que vous transmettez."
+>
+  <EnTetePage
+    oeil="Qu’est-ce qui est collecté ?"
+    titre="Rien, et voici comment le vérifier."
+    chapo="Ce site est un ensemble de pages fixes. Il n’y a ni base de données, ni compte, ni outil de mesure d’audience."
+  />
+
+  <section class="section">
+    <div class="contenant prose">
+      <h2>Cookies et traceurs</h2>
+      <p>
+        Aucun cookie n’est déposé, aucun traceur publicitaire n’est chargé, et aucune statistique
+        de fréquentation n’est collectée. C’est aussi la raison pour laquelle vous n’avez pas eu de
+        bandeau à accepter en arrivant.
+      </p>
+
+      <h2>Le formulaire de contact</h2>
+      <p>
+        Le formulaire de la page contact n’envoie rien à ce site. Il assemble un message et ouvre
+        votre propre logiciel de messagerie, à vous de décider de l’envoyer. Les informations que
+        vous saisissez restent sur votre appareil tant que vous n’avez pas cliqué sur envoyer dans
+        votre messagerie.
+      </p>
+
+      <h2>Les courriels et les appels</h2>
+      <p>
+        Quand vous m’écrivez ou que vous m’appelez, je conserve vos coordonnées le temps de traiter
+        votre demande, puis pendant la durée de notre accompagnement s’il a lieu. Ces informations
+        ne sont transmises à personne et ne servent à aucun envoi commercial.
+      </p>
+
+      <h2>Les données recueillies en consultation</h2>
+      <p>
+        Les informations que vous me confiez pendant une séance sont notées sur un dossier
+        individuel, conservé de manière sécurisée et couvert par le secret professionnel. Vous
+        pouvez en demander la communication ou la suppression à tout moment, par courriel à
+        {' '}{contact.email} ou par courrier au cabinet.
+      </p>
+
+      <h2>Hébergement</h2>
+      <p>
+        Le site est hébergé par GitHub, Inc. aux États-Unis. L’hébergeur conserve des journaux
+        techniques de connexion, dont l’adresse IP, pour la sécurité et le fonctionnement du
+        service. Ce traitement échappe au contrôle de l’éditrice de ce site.
+      </p>
+
+      <h2>Vos droits</h2>
+      <p>
+        Vous disposez d’un droit d’accès, de rectification, d’effacement et d’opposition sur les
+        informations vous concernant. Écrivez à {contact.email} ou à {identite.nom},
+        {' '}{contact.adresse}, {contact.codePostal} {identite.ville}. En cas de désaccord, vous
+        pouvez saisir la CNIL.
+      </p>
+      <p><a href={lien('mentions-legales/')}>Voir les mentions légales</a>.</p>
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,49 @@
+/* ==========================================================================
+   IDENTITE  ·  SEVE
+   Vert foret en grande surface, ambre en accent. Registre polyvalent.
+   L'identite par defaut : terrain, plantes, praticienne generaliste.
+
+   Le vert n'est pas une petite touche : il porte l'en-tete sombre, le
+   panneau du parcours et le pied de page. C'est ce rapport de surface
+   qui l'eloigne du bien-etre creme et terracotta.
+   ========================================================================== */
+
+@font-face { font-family: 'Sentient'; src: url('../../fonts/sentient-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Sentient'; src: url('../../fonts/sentient-400-italic.woff2') format('woff2'); font-weight: 400; font-style: italic; font-display: swap; }
+@font-face { font-family: 'Sentient'; src: url('../../fonts/sentient-500.woff2') format('woff2'); font-weight: 500; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Sentient'; src: url('../../fonts/sentient-500-italic.woff2') format('woff2'); font-weight: 500; font-style: italic; font-display: swap; }
+@font-face { font-family: 'Switzer'; src: url('../../fonts/switzer-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Switzer'; src: url('../../fonts/switzer-500.woff2') format('woff2'); font-weight: 500; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Switzer'; src: url('../../fonts/switzer-700.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+
+:root {
+  --police-titre: 'Sentient', Georgia, 'Times New Roman', serif;
+  --police-texte: 'Switzer', 'Helvetica Neue', Arial, sans-serif;
+
+  --encre: #16352B;        /* vert foret sombre, 11,1:1 sur papier */
+  --papier: #EDEAE1;       /* avoine */
+  --voile: #FBF9F4;
+  --second: #4C6153;       /* vert-gris, 5,5:1 */
+  --accent: #8C5210;       /* ambre foncu, 5,2:1 : le seul accent qui porte du texte */
+  --accent-vif: #C6900F;   /* ambre clair, decor uniquement */
+  --accent-fonce: #74430C; /* texte pose sur une carte teintee, 6,4:1 mini */
+  --dispo: #2F7D5A;
+
+  --sur-encre-second: #A9BDAF;   /* 6,7:1 sur encre */
+  --sur-encre-accent: #E0A84E;   /* 6,2:1 sur encre */
+
+  /* Une teinte par motif. Le bleu-gris casse le tout-chaud. */
+  --argile: #F0E2D4;
+  --brume: #DCE4E8;
+  --gres: #DFE8D8;
+
+  --filet: rgb(22 53 43 / .13);
+  --filet-fort: rgb(22 53 43 / .26);
+
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)' opacity='.04'/%3E%3C/svg%3E");
+  --voile-photo: rgb(190 160 110 / .12);
+
+  /* Arrondis genereux : c'est l'identite la plus accueillante des quatre. */
+  --r-m: 20px;
+  --r-l: 28px;
+}

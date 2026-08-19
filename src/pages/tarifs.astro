@@ -1,0 +1,126 @@
+---
+import Base from '../layouts/Base.astro';
+import EnTetePage from '../components/EnTetePage.astro';
+import BandeauRdv from '../components/BandeauRdv.astro';
+import { prestations, paiement, lien } from '../data/client.js';
+---
+
+<Base
+  titre="Tarifs"
+  description="Tarifs de naturopathie à Juillan : appel de découverte de 15 minutes offert, première consultation 75 € pour 1 h 30, suivi 55 €, forfait trois suivis 150 €."
+>
+  <EnTetePage
+    oeil="Combien ça coûte ?"
+    titre="Les tarifs, affichés."
+    chapo="Vous devez pouvoir savoir combien ça coûte et combien de fois il faut venir avant de décrocher votre téléphone."
+  />
+
+  <section class="section">
+    <div class="contenant">
+      <table class="grille">
+        <caption class="lecteur-seul">Prestations, durées et tarifs</caption>
+        <thead>
+          <tr>
+            <th scope="col">Prestation</th>
+            <th scope="col">Durée</th>
+            <th scope="col">Tarif</th>
+          </tr>
+        </thead>
+        <tbody>
+          {prestations.map((p) => (
+            <tr class="reveler">
+              <th scope="row" class="grille__nom">
+                <span class="grille__titre">{p.nom}</span>
+                <span class="note grille__detail">{p.detail}</span>
+              </th>
+              <td class="chiffres grille__duree">{p.duree}</td>
+              <td class="chiffres grille__prix">{p.prix}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
+      <p class="note grille__duree-totale reveler">{paiement.duree}</p>
+    </div>
+  </section>
+
+  <section class="section section--serree modalites">
+    <div class="contenant modalites__grille">
+      <div class="carte reveler">
+        <p class="oeil">Comment on règle ?</p>
+        <p class="modalites__texte">{paiement.moyens}</p>
+        <p class="note">{paiement.facture}</p>
+      </div>
+      <div class="carte reveler">
+        <p class="oeil">Et si j’annule ?</p>
+        <p class="modalites__texte">{paiement.annulation}</p>
+        <p class="note">
+          Un empêchement de dernière minute arrive. Prévenez moi, on décale sans discussion.
+        </p>
+      </div>
+      <div class="carte reveler">
+        <p class="oeil">Combien de séances ?</p>
+        <p class="modalites__texte">Trois à quatre, sur trois mois.</p>
+        <p class="note">
+          Je ne propose pas de programme de dix séances payé d’avance. Le forfait de trois suivis
+          existe pour ceux qui savent déjà qu’ils veulent aller au bout.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--serree">
+    <div class="contenant prose reveler">
+      <h2>Ce qui n’est jamais facturé en plus</h2>
+      <ul>
+        <li>Le plan écrit remis à la fin de la séance.</li>
+        <li>Les questions par courriel entre deux rendez-vous, dans la limite du raisonnable.</li>
+        <li>Les compléments alimentaires, puisque je n’en vends pas.</li>
+      </ul>
+      <p>
+        Si un examen ou un avis médical me semble nécessaire, je vous le dis et je vous oriente.
+        Ça ne se facture pas non plus.
+        {' '}<a href={lien('consultation/')}>Voir comment se passe une séance</a>.
+      </p>
+    </div>
+  </section>
+
+  <BandeauRdv
+    titre="Encore un doute sur le tarif ?"
+    texte="L’appel de 15 minutes est offert, et il sert précisément à savoir si une séance à 75 € vaut le coup dans votre situation."
+  />
+</Base>
+
+<style>
+  .grille { width: 100%; border-collapse: collapse; text-align: left; }
+  .grille thead th {
+    font-size: .74rem; font-weight: 500; text-transform: uppercase; letter-spacing: .13em;
+    color: var(--accent); padding-bottom: var(--pas-3);
+    border-bottom: 1px solid var(--filet-fort);
+  }
+  .grille tbody tr { border-bottom: 1px solid var(--filet); }
+  .grille th, .grille td { padding-block: var(--pas-5); vertical-align: baseline; }
+  .grille__nom { font-weight: 400; padding-right: var(--pas-5); }
+  .grille__titre { display: block; font-family: var(--police-titre); font-size: 1.22rem; }
+  .grille__detail { display: block; margin-top: var(--pas-1); max-width: 46ch; }
+  .grille__duree { color: var(--second); white-space: nowrap; padding-right: var(--pas-5); }
+  .grille__prix {
+    font-family: var(--police-titre); font-size: 1.45rem; white-space: nowrap; text-align: right;
+  }
+  .grille__duree-totale { margin-top: var(--pas-5); }
+
+  .modalites__grille { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--pas-4); }
+  .modalites__texte { margin-block: var(--pas-3); font-weight: 500; }
+
+  @media (max-width: 61rem) {
+    .modalites__grille { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 40rem) {
+    .grille thead { display: none; }
+    .grille tbody tr { display: grid; grid-template-columns: 1fr auto; gap: var(--pas-2) var(--pas-4); }
+    .grille th, .grille td { padding-block: var(--pas-4) 0; }
+    .grille__nom { grid-column: 1 / -1; padding-right: 0; }
+    .grille__duree { padding-bottom: var(--pas-4); }
+    .grille__prix { text-align: right; padding-bottom: var(--pas-4); }
+  }
+</style>

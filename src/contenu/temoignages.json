@@ -1,0 +1,39 @@
+{
+  "liste": [
+    {
+      "texte": "Je vivais avec des ballonnements tous les soirs depuis deux ans. On a commencé par changer trois choses seulement, dont l’heure de mon dîner, et au bout d’un mois c’était déjà différent. Ce que j’ai apprécié, c’est qu’on ne m’a rien vendu.",
+      "auteur": "Sandrine M.",
+      "ville": "Tarbes",
+      "motif": "Digestion",
+      "accueil": true
+    },
+    {
+      "texte": "Je me réveillais fatiguée tous les matins malgré huit heures de sommeil. Léa a passé une heure et demie à tout reprendre : les repas, les horaires, la lumière du soir. Le plan tenait sur une page, et je l’ai suivi parce qu’il était réaliste.",
+      "auteur": "Karine D.",
+      "ville": "Ibos",
+      "motif": "Fatigue",
+      "accueil": false
+    },
+    {
+      "texte": "À 49 ans, je ne dormais plus une nuit complète. Je voulais essayer autre chose avant d’envisager un traitement. Six semaines plus tard, je me réveille toujours une fois, mais je me rendors.",
+      "auteur": "Marion L.",
+      "ville": "Bagnères-de-Bigorre",
+      "motif": "Cycle féminin",
+      "accueil": false
+    },
+    {
+      "texte": "Deux séances, une pour faire le point, une pour ajuster. Mes coups de barre de milieu d’après-midi ont disparu et je récupère mieux après les sorties longues.",
+      "auteur": "Julien P.",
+      "ville": "Ibos",
+      "motif": "Fatigue",
+      "accueil": true
+    },
+    {
+      "texte": "Elle m’a dit dès le premier appel que mon problème relevait d’abord de mon médecin. J’y suis retournée, puis on a travaillé ensemble sur le reste. C’est ce qui m’a mise en confiance.",
+      "auteur": "Hélène R.",
+      "ville": "Lourdes",
+      "motif": "Cadre",
+      "accueil": false
+    }
+  ]
+}

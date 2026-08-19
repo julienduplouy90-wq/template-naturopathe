@@ -1,0 +1,71 @@
+name: Déploiement Hostinger
+
+# Construit le site et l'envoie chez Hostinger par FTPS.
+# Se declenche a chaque poussee sur main, donc aussi a chaque enregistrement
+# fait depuis le CMS (/admin/), qui commite sur cette branche.
+#
+# Quatre secrets a creer dans Settings > Secrets and variables > Actions :
+#   HOSTINGER_FTP_HOTE          par exemple ftp.votre-domaine.fr
+#   HOSTINGER_FTP_UTILISATEUR   l'utilisateur FTP cree dans hPanel
+#   HOSTINGER_FTP_MOTDEPASSE    son mot de passe
+#   HOSTINGER_FTP_DOSSIER       le dossier cible, par exemple /public_html/
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploiement
+  cancel-in-progress: true
+
+jobs:
+  publier:
+    name: Construire et publier
+    runs-on: ubuntu-latest
+    env:
+      # Recopie en variable d'environnement : le contexte `secrets` n'est pas
+      # utilisable dans un `if`, contrairement au contexte `env`.
+      HOTE: ${{ secrets.HOSTINGER_FTP_HOTE }}
+    steps:
+      - name: Récupérer le dépôt
+        uses: actions/checkout@v4
+
+      - name: Installer Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Installer les dépendances
+        run: npm ci
+
+      - name: Construire le site
+        run: npm run build
+
+      - name: Vérifier que le build a produit quelque chose
+        run: test -f dist/index.html || (echo "dist/index.html manquant" && exit 1)
+
+      - name: Envoyer chez Hostinger
+        if: env.HOTE != ''
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.HOSTINGER_FTP_HOTE }}
+          username: ${{ secrets.HOSTINGER_FTP_UTILISATEUR }}
+          password: ${{ secrets.HOSTINGER_FTP_MOTDEPASSE }}
+          server-dir: ${{ secrets.HOSTINGER_FTP_DOSSIER }}
+          local-dir: ./dist/
+          protocol: ftps
+          # Le journal permet a l'action de n'envoyer que les fichiers modifies
+          # d'une fois sur l'autre.
+          state-name: .ftp-deploy-sync-state.json
+          dangerous-clean-slate: false
+
+      - name: Publication ignorée
+        if: env.HOTE == ''
+        run: |
+          echo "::notice title=Publication ignorée::Le site a été construit mais pas envoyé."
+          echo "Les secrets FTP ne sont pas encore créés dans ce dépôt."
+          echo "Settings > Secrets and variables > Actions, puis ajouter :"
+          echo "  HOSTINGER_FTP_HOTE, HOSTINGER_FTP_UTILISATEUR,"
+          echo "  HOSTINGER_FTP_MOTDEPASSE, HOSTINGER_FTP_DOSSIER"

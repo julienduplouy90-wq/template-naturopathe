@@ -1,0 +1,192 @@
+---
+import Base from '../layouts/Base.astro';
+import EnTetePage from '../components/EnTetePage.astro';
+import { identite, contact, horaires, zone, delaiReponse, lien } from '../data/client.js';
+
+const fleche = `<svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M1 6h9M6.5 2.5 10 6l-3.5 3.5"/></svg>`;
+const agendaConfigure = Boolean(contact.agenda);
+---
+
+<Base
+  titre="Contact et accès"
+  description="Cabinet de naturopathie au 8 avenue de la Bigorre à Juillan, à 5 minutes de Tarbes. Horaires, accès, téléphone et prise de rendez-vous."
+>
+  <EnTetePage
+    oeil="Comment on se joint ?"
+    titre="Le plus simple, c’est l’appel de 15 minutes."
+    chapo="Il est offert et il ne vous engage à rien. Si vous préférez écrire, le formulaire plus bas ouvre votre messagerie avec un message déjà rempli."
+  />
+
+  <section class="section">
+    <div class="contenant colonnes">
+
+      <div class="pile" style="--pile: var(--pas-4)">
+        <a class="carte carte--survol direct" href={agendaConfigure ? contact.agenda : `tel:${contact.telephoneLien}`}>
+          <span class="oeil">Prendre rendez-vous</span>
+          <span class="titre-3 direct__valeur">
+            {agendaConfigure ? 'Réserver un créneau en ligne' : contact.telephone}
+          </span>
+          <span class="note">
+            {agendaConfigure
+              ? 'Choisissez directement un créneau dans mon agenda.'
+              : 'Appelez moi, je réponds ou je vous rappelle.'}
+          </span>
+          <span class="direct__fleche" aria-hidden="true" set:html={fleche} />
+        </a>
+
+        <a class="carte carte--survol direct" href={`tel:${contact.telephoneLien}`}>
+          <span class="oeil">Par téléphone</span>
+          <span class="titre-3 direct__valeur chiffres">{contact.telephone}</span>
+          <span class="note">Du mardi au samedi, aux horaires du cabinet.</span>
+          <span class="direct__fleche" aria-hidden="true" set:html={fleche} />
+        </a>
+
+        <a class="carte carte--survol direct" href={`mailto:${contact.email}`}>
+          <span class="oeil">Par courriel</span>
+          <span class="titre-3 direct__valeur">{contact.email}</span>
+          <span class="note">Réponse sous {delaiReponse}.</span>
+          <span class="direct__fleche" aria-hidden="true" set:html={fleche} />
+        </a>
+      </div>
+
+      <div class="carte formulaire">
+        <h2 class="titre-3">Écrire un message</h2>
+        <p class="note formulaire__intro">
+          Ce formulaire n’enregistre rien. Il ouvre votre logiciel de messagerie avec le message
+          déjà rédigé, à vous de l’envoyer.
+        </p>
+
+        <form data-formulaire class="formulaire__champs">
+          <p class="champ">
+            <label for="nom">Votre nom</label>
+            <input id="nom" name="nom" type="text" autocomplete="name" required />
+          </p>
+          <p class="champ">
+            <label for="motif">Ce qui vous amène</label>
+            <select id="motif" name="motif">
+              <option>Digestion</option>
+              <option>Fatigue et sommeil</option>
+              <option>Cycle féminin</option>
+              <option>Autre chose</option>
+            </select>
+          </p>
+          <p class="champ">
+            <label for="message">Votre message</label>
+            <textarea id="message" name="message" rows="5" required></textarea>
+          </p>
+          <button class="bouton bouton--principal formulaire__envoi" type="submit">
+            <span class="bouton__fleche" aria-hidden="true" set:html={fleche} />
+            Ouvrir ma messagerie
+          </button>
+        </form>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="section section--serree venir">
+    <div class="contenant venir__grille">
+      <div>
+        <p class="oeil">Où est le cabinet ?</p>
+        <address class="venir__adresse">
+          {contact.adresse}<br />
+          {contact.codePostal} {identite.ville}
+        </address>
+        <p class="note">{contact.distance} {contact.acces}</p>
+        <p class="note venir__zone">
+          Je reçois surtout des personnes de {zone.slice(0, 6).join(', ')} et des environs.
+          En visioconférence, la distance ne compte pas.
+        </p>
+      </div>
+
+      <div>
+        <p class="oeil">Quand ?</p>
+        <ul class="venir__horaires">
+          {horaires.map((h) => (
+            <li class="venir__horaire">
+              <span>{h.jours}</span>
+              <span class="chiffres">{h.h}</span>
+            </li>
+          ))}
+        </ul>
+        <p class="note venir__note">
+          Uniquement sur rendez-vous. Annulation possible jusqu’à 24 h avant.
+          {' '}<a class="venir__lien" href={lien('tarifs/')}>Voir les tarifs</a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <script is:inline define:vars={{ courriel: contact.email }}>
+    (function () {
+      var f = document.querySelector('[data-formulaire]');
+      if (!f) return;
+      f.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var d = new FormData(f);
+        var sujet = 'Demande de rendez-vous : ' + (d.get('motif') || '');
+        var corps = 'Bonjour,\n\n' + (d.get('message') || '') + '\n\n' + (d.get('nom') || '');
+        window.location.href =
+          'mailto:' + courriel +
+          '?subject=' + encodeURIComponent(sujet) +
+          '&body=' + encodeURIComponent(corps);
+      });
+    })();
+  </script>
+</Base>
+
+<style>
+  .colonnes {
+    display: grid; grid-template-columns: .85fr 1.15fr;
+    gap: clamp(2rem, 5vw, 3.5rem); align-items: start;
+  }
+
+  .direct {
+    display: grid; gap: var(--pas-2);
+    position: relative; text-decoration: none;
+    padding-right: 3.5rem;
+  }
+  .direct__valeur { word-break: break-word; }
+  .direct__fleche {
+    position: absolute; top: 50%; right: var(--pas-5); translate: 0 -50%;
+    display: grid; place-items: center;
+    width: 2rem; height: 2rem; border-radius: 50%;
+    background: var(--accent); color: var(--voile);
+    transition: transform var(--t-moyen) var(--courbe);
+  }
+  .direct:hover .direct__fleche { transform: translateX(3px); }
+
+  .formulaire__intro { margin-block: var(--pas-3) var(--pas-5); }
+  .formulaire__champs { display: grid; gap: var(--pas-4); }
+  .champ { display: grid; gap: var(--pas-2); }
+  .champ label { font-size: .82rem; font-weight: 500; letter-spacing: .02em; }
+  .champ input, .champ select, .champ textarea {
+    width: 100%; padding: .75rem .9rem;
+    border: 1px solid var(--filet-fort); border-radius: var(--r-s);
+    background: var(--papier); color: var(--encre);
+    transition: border-color var(--t-rapide) var(--courbe);
+  }
+  .champ input:hover, .champ select:hover, .champ textarea:hover { border-color: var(--accent); }
+  .champ textarea { resize: vertical; min-height: 7rem; }
+  .formulaire__envoi { justify-self: start; }
+
+  .venir { background: var(--voile); border-block: 1px solid var(--filet); }
+  .venir__grille { display: grid; grid-template-columns: 1.2fr .8fr; gap: clamp(2rem, 5vw, 4rem); }
+  .venir__adresse {
+    font-style: normal; font-family: var(--police-titre);
+    font-size: 1.35rem; line-height: 1.4;
+    margin-block: var(--pas-4) var(--pas-3);
+  }
+  .venir__zone { margin-top: var(--pas-4); max-width: 54ch; }
+  .venir__horaires { display: grid; gap: var(--pas-3); margin-top: var(--pas-4); max-width: 24rem; }
+  .venir__horaire {
+    display: flex; justify-content: space-between; gap: var(--pas-4);
+    padding-bottom: var(--pas-3); border-bottom: 1px solid var(--filet);
+  }
+  .venir__note { margin-top: var(--pas-4); }
+  .venir__lien { color: var(--accent); text-underline-offset: .22em; }
+
+  @media (max-width: 61rem) {
+    .colonnes, .venir__grille { grid-template-columns: 1fr; }
+  }
+</style>

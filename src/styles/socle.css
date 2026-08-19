@@ -1,0 +1,289 @@
+/* ==========================================================================
+   SOCLE  -  independant de l'identite
+   Rythme, echelle typographique, formes, composants, animations.
+   Aucune couleur codee en dur ici : tout passe par les variables posees
+   par src/styles/identites/<identite>.css
+   ========================================================================== */
+
+/* Les @font-face vivent dans le fichier d'identite : seule l'identite
+   importee embarque ses polices dans le build. */
+
+/* --- Jetons de structure -------------------------------------------------- */
+:root {
+  --pas-1: .25rem;  --pas-2: .5rem;   --pas-3: .75rem;  --pas-4: 1rem;
+  --pas-5: 1.5rem;  --pas-6: 2rem;    --pas-7: 3rem;    --pas-8: 4rem;
+  --pas-9: 6rem;    --pas-10: 8rem;
+
+  --r-xs: 6px; --r-s: 12px; --r-m: 20px; --r-l: 28px; --r-pill: 999px;
+
+  --largeur: 76rem;
+  --gouttiere: clamp(1.25rem, 5vw, 3.5rem);
+  --section-y: clamp(4rem, 9vw, 7.5rem);
+
+  --t-rapide: 180ms;
+  --t-moyen: 320ms;
+  --courbe: cubic-bezier(.22, .61, .36, 1);
+
+  --ombre-1: 0 1px 2px rgb(0 0 0 / .05), 0 2px 8px rgb(0 0 0 / .04);
+  --ombre-2: 0 2px 4px rgb(0 0 0 / .06), 0 12px 28px rgb(0 0 0 / .08);
+  --ombre-3: 0 4px 8px rgb(0 0 0 / .06), 0 24px 56px rgb(0 0 0 / .12);
+}
+
+/* --- Reinitialisation ----------------------------------------------------- */
+*, *::before, *::after { box-sizing: border-box; }
+* { margin: 0; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+img, picture, svg { display: block; max-width: 100%; height: auto; }
+button, input, textarea, select { font: inherit; color: inherit; }
+ul, ol { list-style: none; padding: 0; }
+a { color: inherit; }
+
+body {
+  font-family: var(--police-texte);
+  /* Une identite peut relever le corps de texte (Chaume le fait). */
+  font-size: var(--taille-corps, 1.0625rem);
+  line-height: 1.7;
+  color: var(--encre);
+  background-color: var(--papier);
+  /* grain : c'est ce qui distingue une surface d'un aplat */
+  background-image: var(--grain);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* --- Echelle typographique ------------------------------------------------ */
+.display {
+  font-family: var(--police-titre);
+  font-weight: 500;
+  font-size: clamp(2.55rem, 6.2vw, 4.9rem);
+  line-height: 1.03;
+  letter-spacing: -.022em;
+}
+.titre-2 {
+  font-family: var(--police-titre);
+  font-weight: 500;
+  font-size: clamp(1.85rem, 3.4vw, 2.8rem);
+  line-height: 1.12;
+  letter-spacing: -.018em;
+}
+.titre-3 {
+  font-family: var(--police-titre);
+  font-weight: 500;
+  font-size: clamp(1.2rem, 1.9vw, 1.4rem);
+  line-height: 1.25;
+  letter-spacing: -.01em;
+}
+.chapo { font-size: clamp(1.05rem, 1.5vw, 1.22rem); line-height: 1.6; color: var(--second); }
+.note { font-size: .875rem; line-height: 1.6; color: var(--second); }
+.micro { font-size: .75rem; line-height: 1.5; }
+
+/* L'oeil de section : une question, pas une etiquette. */
+.oeil {
+  display: inline-flex; align-items: center; gap: var(--pas-2);
+  font-size: .76rem; font-weight: 500;
+  text-transform: uppercase; letter-spacing: .15em;
+  color: var(--accent);
+}
+.oeil::before {
+  content: ''; width: 1.75rem; height: 1px;
+  background: currentColor; opacity: .55;
+}
+
+.chiffres { font-variant-numeric: tabular-nums; }
+
+/* --- Mise en page --------------------------------------------------------- */
+.contenant { width: 100%; max-width: var(--largeur); margin-inline: auto; padding-inline: var(--gouttiere); }
+.section { padding-block: var(--section-y); }
+.section--serree { --section-y: clamp(2.5rem, 5vw, 4rem); }
+.section--large { --section-y: clamp(5rem, 11vw, 9rem); }
+
+/* Surfaces sombres : on bascule les variables, pas les regles. */
+.sur-encre {
+  background: var(--encre);
+  color: var(--papier);
+  --second: var(--sur-encre-second);
+  --accent: var(--sur-encre-accent);
+  --filet: rgb(255 255 255 / .13);
+  --filet-fort: rgb(255 255 255 / .28);
+}
+
+.pile > * + * { margin-top: var(--pile, var(--pas-4)); }
+
+/* --- Boutons -------------------------------------------------------------- */
+.bouton {
+  display: inline-flex; align-items: center; gap: var(--pas-3);
+  padding: .8rem 1.4rem .8rem 1rem;
+  border: 1px solid transparent; border-radius: var(--r-pill);
+  font-weight: 500; font-size: .98rem; text-decoration: none;
+  cursor: pointer;
+  transition: transform var(--t-rapide) var(--courbe),
+              box-shadow var(--t-rapide) var(--courbe),
+              background-color var(--t-rapide) var(--courbe);
+}
+.bouton__fleche {
+  display: grid; place-items: center;
+  width: 1.85rem; height: 1.85rem; border-radius: 50%;
+  flex: 0 0 auto;
+  transition: transform var(--t-moyen) var(--courbe);
+}
+.bouton:hover { transform: translateY(-2px); }
+.bouton:hover .bouton__fleche { transform: translateX(3px); }
+
+.bouton--principal { background: var(--encre); color: var(--papier); box-shadow: var(--ombre-2); }
+.bouton--principal .bouton__fleche { background: var(--accent); color: var(--papier); }
+.bouton--principal:hover { box-shadow: var(--ombre-3); }
+
+.bouton--second { background: transparent; border-color: var(--filet-fort); padding-left: 1.4rem; }
+.bouton--second:hover { background: var(--voile); }
+
+.sur-encre .bouton--principal { background: var(--papier); color: var(--encre); }
+.sur-encre .bouton--principal .bouton__fleche { background: var(--accent); color: var(--encre); }
+.sur-encre .bouton--second:hover { background: rgb(255 255 255 / .07); }
+
+/* --- Pastilles de reassurance --------------------------------------------- */
+.pastille {
+  display: inline-flex; align-items: center; gap: var(--pas-2);
+  padding: .4rem .85rem;
+  border: 1px solid var(--filet); border-radius: var(--r-pill);
+  background: var(--voile);
+  font-size: .82rem; color: var(--second);
+}
+.pastille__point {
+  width: .5rem; height: .5rem; border-radius: 50%;
+  background: var(--dispo); flex: 0 0 auto;
+}
+
+/* --- Cartes --------------------------------------------------------------- */
+.carte {
+  border-radius: var(--r-m);
+  background: var(--voile);
+  border: 1px solid var(--filet);
+  padding: clamp(1.4rem, 2.4vw, 2rem);
+  transition: transform var(--t-moyen) var(--courbe), box-shadow var(--t-moyen) var(--courbe);
+}
+.carte--teintee { border-color: transparent; background: var(--teinte); }
+a.carte:hover, .carte--survol:hover { transform: translateY(-4px); box-shadow: var(--ombre-2); }
+
+/* --- Traitement photo -----------------------------------------------------
+   La piece maitresse : reprend une photo prise au telephone et la rend
+   utilisable. Recadrage impose, voile chaud, contraste adouci.
+   -------------------------------------------------------------------------- */
+.photo {
+  position: relative; overflow: hidden;
+  border-radius: var(--r-l);
+  background: var(--voile);
+  box-shadow: var(--ombre-2);
+}
+.photo img {
+  width: 100%; height: 100%; object-fit: cover;
+  filter: saturate(.88) contrast(.96) brightness(1.02);
+}
+.photo::after {
+  content: ''; position: absolute; inset: 0;
+  background: var(--voile-photo);
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+.photo--portrait { aspect-ratio: 4 / 5; }
+.photo--paysage { aspect-ratio: 3 / 2; }
+.photo--inclinee { transform: rotate(var(--inclinaison, -2.5deg)); }
+
+/* --- Filets --------------------------------------------------------------- */
+.filet { height: 1px; background: var(--filet); border: 0; }
+
+/* --- Texte long ------------------------------------------------------------
+   Une colonne de lecture, pour les pages de contenu et les articles.
+   -------------------------------------------------------------------------- */
+.prose { max-width: 66ch; }
+.prose > * + * { margin-top: var(--pas-4); }
+.prose h2 {
+  font-family: var(--police-titre); font-weight: 500;
+  font-size: clamp(1.5rem, 2.6vw, 1.95rem); line-height: 1.2; letter-spacing: -.015em;
+  margin-top: var(--pas-8);
+}
+.prose h3 {
+  font-family: var(--police-titre); font-weight: 500;
+  font-size: 1.22rem; line-height: 1.3;
+  margin-top: var(--pas-6);
+}
+.prose ul { display: grid; gap: var(--pas-3); }
+.prose li { display: flex; align-items: baseline; gap: var(--pas-3); }
+.prose li::before {
+  content: ''; width: .6rem; height: 2px; flex: 0 0 auto;
+  background: var(--accent); border-radius: var(--r-pill);
+  transform: translateY(-.3rem);
+}
+.prose strong { font-weight: 500; }
+.prose a { color: var(--accent); text-underline-offset: .22em; }
+
+/* Encadre de prudence : la mention qui rassure vaut mieux visible. */
+.prudence {
+  padding: var(--pas-5);
+  border: 1px solid var(--filet-fort); border-left-width: 3px;
+  border-left-color: var(--accent);
+  border-radius: var(--r-s);
+  background: var(--voile);
+}
+.prudence__titre {
+  font-size: .76rem; font-weight: 500; text-transform: uppercase;
+  letter-spacing: .13em; color: var(--accent); margin-bottom: var(--pas-2);
+}
+
+/* --- Animations ----------------------------------------------------------- */
+/* Sequence d'ouverture : chaque element porte --d (son retard). */
+.entree { opacity: 0; transform: translateY(14px); }
+.js .entree { animation: entree .72s var(--courbe) forwards; animation-delay: var(--d, 0ms); }
+@keyframes entree { to { opacity: 1; transform: none; } }
+
+/* Soulignement qui se trace sous le segment italique.
+   Peint en fond plutot qu'en pseudo-element : le segment peut alors passer
+   a la ligne sans casser le trait, et il n'impose aucune largeur minimale
+   a la grille qui l'entoure. */
+.trait {
+  background-image: linear-gradient(var(--accent), var(--accent));
+  background-repeat: no-repeat;
+  background-position: 0 94%;
+  background-size: 0% .07em;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+.js .trait { animation: trace .62s var(--courbe) forwards; animation-delay: var(--d, 0ms); }
+@keyframes trace { to { background-size: 100% .07em; } }
+
+/* Apparition au defilement. */
+.reveler { opacity: 0; transform: translateY(20px); transition: opacity .7s var(--courbe), transform .7s var(--courbe); }
+.reveler.vu { opacity: 1; transform: none; }
+
+/* Sans JavaScript, rien n'est masque. */
+html:not(.js) .entree, html:not(.js) .reveler { opacity: 1; transform: none; }
+html:not(.js) .trait { background-size: 100% .07em; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: .001ms !important; animation-delay: 0ms !important;
+    transition-duration: .001ms !important;
+  }
+  .entree, .reveler { opacity: 1; transform: none; }
+  .trait { background-size: 100% .07em; }
+  .photo--inclinee { transform: none; }
+}
+
+/* --- Accessibilite -------------------------------------------------------- */
+:where(a, button, input, textarea, summary):focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: var(--r-xs);
+}
+.saut-contenu {
+  position: absolute; left: var(--pas-4); top: var(--pas-4);
+  z-index: 100; transform: translateY(-250%);
+  padding: .7rem 1.1rem; border-radius: var(--r-pill);
+  background: var(--encre); color: var(--papier); text-decoration: none;
+  transition: transform var(--t-rapide) var(--courbe);
+}
+.saut-contenu:focus { transform: none; }
+.lecteur-seul {
+  position: absolute; width: 1px; height: 1px; overflow: hidden;
+  clip-path: inset(50%); white-space: nowrap;
+}

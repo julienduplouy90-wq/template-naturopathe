@@ -1,0 +1,133 @@
+---
+import Base from '../layouts/Base.astro';
+import EnTetePage from '../components/EnTetePage.astro';
+import BandeauRdv from '../components/BandeauRdv.astro';
+import { identite, formation, temoignages, demo, lien } from '../data/client.js';
+
+const avis = temoignages[4];
+---
+
+<Base
+  titre="Qui je suis"
+  description="Léa Cazaux, naturopathe à Juillan depuis 2018. Formation en 1 200 heures, deux spécialisations, un cadre de pratique annoncé clairement."
+>
+  <EnTetePage
+    oeil="Qui je suis ?"
+    titre="Je reçois à Juillan depuis 2018."
+    chapo="Ni gourou ni médecin. Une praticienne qui regarde votre quotidien dans le détail et qui vous dit franchement ce qu’elle peut faire et ce qu’elle ne peut pas."
+  />
+
+  <section class="section">
+    <div class="contenant portrait">
+      <figure class="photo photo--portrait portrait__photo reveler">
+        <img src={lien('images/portrait-a-venir.svg')} alt={`${identite.nom}, naturopathe à ${identite.ville}`} width="400" height="500" />
+      </figure>
+
+      <div class="prose reveler">
+        <p class="chapo">
+          Je me suis formée à la naturopathie après quinze ans dans un métier où je regardais des
+          tableaux plutôt que des gens. J’ai gardé de cette période le goût du détail et la méfiance
+          envers les explications qui arrangent tout.
+        </p>
+        <p>
+          J’ai suivi une formation de {formation.heures} heures, puis deux formations
+          complémentaires, sur le microbiote et la digestion d’une part, sur l’accompagnement du
+          cycle féminin d’autre part. C’est de là que viennent les trois motifs sur lesquels je
+          travaille.
+        </p>
+        <h2>Pourquoi trois motifs seulement</h2>
+        <p>
+          Parce qu’au delà, on bricole. Je préfère refuser une demande et orienter la personne
+          plutôt que d’accepter une séance dont je sais qu’elle ne mènera nulle part. C’est aussi
+          pour ça que l’appel de 15 minutes existe.
+        </p>
+        <h2>Le cadre de ma pratique</h2>
+        <p>
+          La naturopathie n’est pas une profession de santé réglementée en France. Je ne pose pas de
+          diagnostic, je ne prescris rien, et je ne demande jamais d’interrompre un traitement. Si
+          votre situation relève d’abord de votre médecin, je vous le dis avant même le premier
+          rendez-vous.
+        </p>
+        <p>
+          Je ne vends aucun complément alimentaire. Cette activité existe et elle est légale, mais
+          elle crée un conflit d’intérêts que je préfère éviter.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--serree reperes">
+    <div class="contenant">
+      <p class="oeil reveler">Les repères</p>
+      <ul class="reperes__liste">
+        <li class="carte reveler">
+          <span class="reperes__chiffre chiffres">{identite.depuis}</span>
+          <span class="note">Première installation, à {identite.ville}.</span>
+        </li>
+        <li class="carte reveler">
+          <span class="reperes__chiffre chiffres">{formation.heures} h</span>
+          <span class="note">De formation initiale en naturopathie.</span>
+        </li>
+        <li class="carte reveler">
+          <span class="reperes__chiffre chiffres">2</span>
+          <span class="note">Formations complémentaires : {formation.complements.join(', ').toLowerCase()}.</span>
+        </li>
+        <li class="carte reveler">
+          <span class="reperes__chiffre chiffres">1 h 30</span>
+          <span class="note">La durée d’une première séance, sans exception.</span>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  {avis && (
+    <section class="section section--serree">
+      <div class="contenant">
+        <figure class="citation reveler">
+          <blockquote class="citation__texte titre-3">{avis.texte}</blockquote>
+          <figcaption class="note citation__auteur">
+            {avis.auteur}, {avis.ville}
+            {demo && <span class="citation__demo">Témoignage de démonstration.</span>}
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+  )}
+
+  <BandeauRdv />
+</Base>
+
+<style>
+  .portrait {
+    display: grid; grid-template-columns: .8fr 1.2fr;
+    gap: clamp(2rem, 5vw, 4rem); align-items: start;
+  }
+  .portrait__photo { --inclinaison: -2deg; }
+
+  .reperes__liste {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: var(--pas-4); margin-top: var(--pas-5);
+  }
+  .reperes__chiffre {
+    display: block; font-family: var(--police-titre);
+    font-size: 2rem; line-height: 1; margin-bottom: var(--pas-3);
+    color: var(--accent);
+  }
+
+  .citation {
+    max-width: 62ch; margin-inline: auto; text-align: center;
+    padding: clamp(2rem, 4vw, 3rem);
+    border-top: 1px solid var(--filet); border-bottom: 1px solid var(--filet);
+  }
+  .citation__auteur { margin-top: var(--pas-5); }
+  .citation__demo { display: block; margin-top: var(--pas-2); font-size: .75rem; }
+
+  @media (max-width: 61rem) {
+    .portrait { grid-template-columns: 1fr; }
+    .portrait__photo { max-width: 20rem; }
+    .reperes__liste { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 34rem) {
+    .reperes__liste { grid-template-columns: 1fr; }
+  }
+</style>

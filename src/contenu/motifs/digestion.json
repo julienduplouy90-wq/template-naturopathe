@@ -1,0 +1,25 @@
+{
+  "ordre": 1,
+  "slug": "digestion",
+  "titre": "Digestion",
+  "titreLong": "Ballonnements, transit, inconfort après les repas",
+  "teinte": "argile",
+  "accroche": "Ballonnements le soir, transit irrégulier, inconfort après les repas.",
+  "texte": "On commence par regarder les horaires des repas et leur composition avant de parler de quoi que ce soit d’autre.",
+  "chapo": "C’est le motif pour lequel on vient me voir le plus souvent, et presque toujours après un bilan sanguin normal et un médecin qui a parlé de stress.",
+  "signes": [
+    "Le ventre gonfle dans la journée et surtout le soir",
+    "Le transit alterne sans raison claire",
+    "Certains repas passent, d’autres non, sans logique évidente",
+    "Vous avez essayé de retirer le gluten ou les produits laitiers, sans résultat net"
+  ],
+  "regarde": [
+    "Les horaires de vos repas et le temps que vous prenez pour manger",
+    "La composition du petit déjeuner, qui change souvent tout le reste de la journée",
+    "Le fractionnement, les quantités le soir, les boissons pendant le repas",
+    "Le stress au moment des repas, qui compte autant que leur contenu"
+  ],
+  "change": "La plupart du temps, deux ou trois ajustements d’horaires et de composition suffisent à voir une différence en trois à quatre semaines. Si ce n’est pas le cas, c’est le signe qu’il faut regarder ailleurs, et je vous le dis.",
+  "prudence": "Un ballonnement qui s’installe brutalement, du sang dans les selles, une perte de poids que vous n’expliquez pas : ce sont des motifs de consultation médicale, pas de naturopathie.",
+  "temoignage": 0
+}

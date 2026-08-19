@@ -1,0 +1,56 @@
+/* ==========================================================================
+   IDENTITE  ·  SILEX
+   Bleu ardoise dominant, orange brule en accent. Registre factuel.
+   Pour une praticienne qui veut d'abord etre prise au serieux.
+
+   Une identite ne definit que des variables. Elle ne cree aucune regle.
+   Pour en changer : remplacer l'import dans src/layouts/Base.astro.
+   ========================================================================== */
+
+/* --- Polices (Fontshare, licence commerciale gratuite, auto-hebergees) ---- */
+@font-face { font-family: 'Erode'; src: url('../../fonts/erode-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Erode'; src: url('../../fonts/erode-400-italic.woff2') format('woff2'); font-weight: 400; font-style: italic; font-display: swap; }
+@font-face { font-family: 'Erode'; src: url('../../fonts/erode-500.woff2') format('woff2'); font-weight: 500; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Erode'; src: url('../../fonts/erode-500-italic.woff2') format('woff2'); font-weight: 500; font-style: italic; font-display: swap; }
+@font-face { font-family: 'Supreme'; src: url('../../fonts/supreme-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Supreme'; src: url('../../fonts/supreme-500.woff2') format('woff2'); font-weight: 500; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Supreme'; src: url('../../fonts/supreme-700.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+
+:root {
+  /* --- Polices ----------------------------------------------------------- */
+  --police-titre: 'Erode', Georgia, 'Times New Roman', serif;
+  --police-texte: 'Supreme', 'Helvetica Neue', Arial, sans-serif;
+
+  /* --- Couleurs ---------------------------------------------------------- */
+  --encre: #1B2830;        /* bleu ardoise sombre : texte et grandes surfaces */
+  --papier: #EBEAE5;       /* gris pierre chaud : fond de page */
+  --voile: #F8F8F5;        /* blanc pierre : cartes posees, champs */
+  --second: #4E606C;       /* bleu-gris : texte secondaire, 5,4:1 sur papier */
+  --accent: #A4471A;       /* orange brule : liens et soulignements, 5,0:1 */
+  --accent-vif: #C2601F;   /* meme famille, decor uniquement, jamais de texte */
+  --accent-fonce: #8B3B15; /* texte pose sur une carte teintee, 5,5:1 mini */
+  --dispo: #2F7D5A;        /* vert : pastille « je recois de nouvelles personnes » */
+
+  /* Contrepoints des surfaces sombres. */
+  --sur-encre-second: #A8B7C0;   /* 7,3:1 sur encre */
+  --sur-encre-accent: #E08A4E;   /* 5,7:1 sur encre */
+
+  /* Teintes de cartes, une par motif. La brume froide empeche
+     la page de virer au monochrome chaud. */
+  --argile: #E6DBCC;
+  --brume: #D8E0E5;
+  --gres: #E7D8D2;
+
+  /* --- Filets ------------------------------------------------------------ */
+  --filet: rgb(27 40 48 / .12);
+  --filet-fort: rgb(27 40 48 / .26);
+
+  /* --- Matiere ----------------------------------------------------------- */
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)' opacity='.038'/%3E%3C/svg%3E");
+  --voile-photo: rgb(190 152 112 / .10);
+
+  /* --- Formes ------------------------------------------------------------
+     Silex assume un registre factuel : arrondis presents mais tenus. */
+  --r-m: 16px;
+  --r-l: 22px;
+}

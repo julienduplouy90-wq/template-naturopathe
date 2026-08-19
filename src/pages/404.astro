@@ -1,0 +1,52 @@
+---
+import Base from '../layouts/Base.astro';
+import { navigation, lien, lienRdv } from '../data/client.js';
+
+const fleche = `<svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M1 6h9M6.5 2.5 10 6l-3.5 3.5"/></svg>`;
+---
+
+<Base
+  titre="Page introuvable"
+  description="Cette page n’existe pas ou a changé d’adresse."
+>
+  <section class="section perdu">
+    <div class="contenant perdu__bloc">
+      <p class="oeil entree" style="--d: 60ms">Erreur 404</p>
+      <h1 class="display perdu__titre entree" style="--d: 180ms">Cette page n’existe pas.</h1>
+      <p class="chapo perdu__texte entree" style="--d: 300ms">
+        Elle a peut-être changé d’adresse. Voici les pages du site, et le numéro du cabinet si vous
+        cherchiez simplement à me joindre.
+      </p>
+
+      <ul class="perdu__liste entree" style="--d: 400ms">
+        {navigation.map((item) => (
+          <li><a class="perdu__lien" href={lien(item.href)}>{item.libelle}</a></li>
+        ))}
+        <li><a class="perdu__lien" href={lien('contact/')}>Contact</a></li>
+      </ul>
+
+      <a class="bouton bouton--principal perdu__bouton entree" style="--d: 520ms" href={lienRdv()}>
+        <span class="bouton__fleche" aria-hidden="true" set:html={fleche} />
+        Réserver l’appel de 15 minutes
+      </a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .perdu { padding-block: clamp(3rem, 9vw, 7rem); }
+  .perdu__bloc { max-width: 44rem; }
+  .perdu__titre { font-size: clamp(2.1rem, 5vw, 3.4rem); margin-block: var(--pas-4); }
+  .perdu__texte { max-width: 52ch; }
+  .perdu__liste {
+    display: flex; flex-wrap: wrap; gap: var(--pas-3);
+    margin-block: var(--pas-6);
+  }
+  .perdu__lien {
+    display: inline-block; padding: .45rem .9rem;
+    border: 1px solid var(--filet-fort); border-radius: var(--r-pill);
+    text-decoration: none; font-size: .92rem;
+    transition: background-color var(--t-rapide) var(--courbe), border-color var(--t-rapide) var(--courbe);
+  }
+  .perdu__lien:hover { background: var(--voile); border-color: var(--accent); }
+</style>

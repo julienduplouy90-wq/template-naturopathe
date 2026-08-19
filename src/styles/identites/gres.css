@@ -1,0 +1,48 @@
+/* ==========================================================================
+   IDENTITE  ·  GRES
+   Brun chaud profond, vert amande en accent. Registre enveloppant.
+   Pour la perinatalite, le cycle feminin, une patientele qui vient
+   chercher un endroit ou se poser.
+
+   C'est l'identite la plus arrondie et la plus chaude des quatre.
+   ========================================================================== */
+
+@font-face { font-family: 'Boska'; src: url('../../fonts/boska-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Boska'; src: url('../../fonts/boska-400-italic.woff2') format('woff2'); font-weight: 400; font-style: italic; font-display: swap; }
+@font-face { font-family: 'Boska'; src: url('../../fonts/boska-500.woff2') format('woff2'); font-weight: 500; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Boska'; src: url('../../fonts/boska-500-italic.woff2') format('woff2'); font-weight: 500; font-style: italic; font-display: swap; }
+@font-face { font-family: 'General Sans'; src: url('../../fonts/general-sans-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'General Sans'; src: url('../../fonts/general-sans-500.woff2') format('woff2'); font-weight: 500; font-style: normal; font-display: swap; }
+@font-face { font-family: 'General Sans'; src: url('../../fonts/general-sans-600.woff2') format('woff2'); font-weight: 600; font-style: normal; font-display: swap; }
+
+:root {
+  --police-titre: 'Boska', Georgia, 'Times New Roman', serif;
+  --police-texte: 'General Sans', 'Helvetica Neue', Arial, sans-serif;
+
+  --encre: #35251E;        /* brun sombre, 12,3:1 sur papier */
+  --papier: #F2EAE2;       /* sable rose */
+  --voile: #FCF8F4;
+  --second: #6B5347;       /* brun moyen, 6,0:1 */
+  --accent: #59653A;       /* vert amande foncu, 5,2:1 */
+  --accent-vif: #8A9A5B;   /* amande clair, decor uniquement */
+  --accent-fonce: #4A5430; /* texte pose sur une carte teintee, 6,2:1 mini */
+  --dispo: #4A7C59;
+
+  --sur-encre-second: #C0AA9C;   /* 6,6:1 sur encre */
+  --sur-encre-accent: #B9C98A;   /* 8,3:1 sur encre */
+
+  --argile: #EFE3D2;
+  --brume: #E1E5D4;
+  --gres: #F0DFDB;
+
+  --filet: rgb(53 37 30 / .13);
+  --filet-fort: rgb(53 37 30 / .26);
+
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.78' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)' opacity='.045'/%3E%3C/svg%3E");
+  --voile-photo: rgb(200 160 130 / .13);
+
+  /* Le plus arrondi des quatre : c'est ce qui porte le registre. */
+  --r-s: 14px;
+  --r-m: 24px;
+  --r-l: 32px;
+}

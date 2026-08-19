@@ -1,0 +1,41 @@
+---
+import { contact, lienRdv } from '../data/client.js';
+
+const {
+  titre = 'Un appel de 15 minutes, sans engagement.',
+  texte = 'Vous me dites ce qui vous amène, je vous dis si je peux vous être utile. Si je ne suis pas la bonne personne pour vous, je vous le dis à ce moment là.',
+} = Astro.props;
+
+const fleche = `<svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M1 6h9M6.5 2.5 10 6l-3.5 3.5"/></svg>`;
+---
+
+<section class="section rdv">
+  <div class="contenant rdv__bloc reveler">
+    <p class="oeil">Par où commencer ?</p>
+    <h2 class="titre-2 rdv__titre">{titre}</h2>
+    <p class="chapo rdv__texte">{texte}</p>
+    <div class="rdv__actions">
+      <a class="bouton bouton--principal" href={lienRdv()}>
+        <span class="bouton__fleche" aria-hidden="true" set:html={fleche} />
+        Réserver l’appel de 15 minutes
+      </a>
+      <a class="bouton bouton--second" href={`tel:${contact.telephoneLien}`}>{contact.telephone}</a>
+    </div>
+    <slot />
+  </div>
+</section>
+
+<style>
+  .rdv__bloc {
+    max-width: 58ch; margin-inline: auto; text-align: center;
+    padding: clamp(2rem, 5vw, 3.5rem);
+    background: var(--voile); border: 1px solid var(--filet);
+    border-radius: var(--r-l); box-shadow: var(--ombre-1);
+  }
+  .rdv__bloc .oeil::before { display: none; }
+  .rdv__titre { margin-block: var(--pas-4); }
+  .rdv__actions { display: flex; flex-wrap: wrap; gap: var(--pas-3); justify-content: center; margin-top: var(--pas-6); }
+  @media (max-width: 40rem) {
+    .rdv__actions .bouton { flex: 1 1 100%; justify-content: center; }
+  }
+</style>

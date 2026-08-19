@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500" role="img" aria-label="Emplacement du portrait de la praticienne">
+  <defs>
+    <linearGradient id="fond" x1="0" y1="0" x2="0.4" y2="1">
+      <stop offset="0" stop-color="#DCE0E2"/>
+      <stop offset="1" stop-color="#C9CDCB"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="500" fill="url(#fond)"/>
+  <circle cx="200" cy="205" r="78" fill="#B7BDBC" opacity="0.75"/>
+  <path d="M62 500c0-76 62-138 138-138s138 62 138 138z" fill="#B7BDBC" opacity="0.75"/>
+  <rect x="18" y="18" width="364" height="464" rx="14" fill="none" stroke="#8E9694" stroke-width="1.5" stroke-dasharray="7 7"/>
+  <text x="200" y="466" text-anchor="middle" font-family="Georgia, serif" font-size="15" fill="#5C6664" letter-spacing="2.4">PORTRAIT À VENIR</text>
+</svg>

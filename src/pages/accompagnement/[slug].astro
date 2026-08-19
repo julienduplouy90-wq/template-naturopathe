@@ -1,0 +1,119 @@
+---
+import Base from '../../layouts/Base.astro';
+import EnTetePage from '../../components/EnTetePage.astro';
+import BandeauRdv from '../../components/BandeauRdv.astro';
+import { motifs, temoignages, parcours, demo, lien } from '../../data/client.js';
+
+export function getStaticPaths() {
+  return motifs.map((m) => ({ params: { slug: m.slug }, props: { motif: m } }));
+}
+
+const { motif } = Astro.props;
+const avis = temoignages[motif.temoignage];
+const autres = motifs.filter((m) => m.slug !== motif.slug);
+const premiere = parcours[1];
+---
+
+<Base
+  titre={motif.titre}
+  description={`${motif.titreLong}. ${motif.accroche} Consultation de naturopathie à Juillan, près de Tarbes.`}
+>
+  <EnTetePage
+    oeil="Qu’est-ce qui vous amène ?"
+    titre={motif.titreLong}
+    chapo={motif.chapo}
+    teinte={motif.teinte}
+  />
+
+  <section class="section">
+    <div class="contenant colonnes">
+
+      <div class="prose">
+        <h2 class="reveler">Vous vous reconnaissez ?</h2>
+        <ul class="reveler">
+          {motif.signes.map((s) => <li>{s}</li>)}
+        </ul>
+
+        <h2 class="reveler">Ce qu’on regarde en séance</h2>
+        <ul class="reveler">
+          {motif.regarde.map((r) => <li>{r}</li>)}
+        </ul>
+
+        <h2 class="reveler">Ce que ça change, et en combien de temps</h2>
+        <p class="reveler">{motif.change}</p>
+
+        <div class="prudence reveler">
+          <p class="prudence__titre">Avant d’aller plus loin</p>
+          <p class="note">{motif.prudence}</p>
+        </div>
+      </div>
+
+      <aside class="cote">
+        <div class="carte cote__bloc reveler">
+          <p class="oeil">Combien ça coûte ?</p>
+          <p class="cote__prix chiffres">{premiere.prix}</p>
+          <p class="note">{premiere.titre}, {premiere.duree}. Suivi à 55 € l’heure.</p>
+          <a class="cote__lien" href={lien('tarifs/')}>Voir tous les tarifs</a>
+        </div>
+
+        {avis && (
+          <figure class="carte cote__avis reveler">
+            <blockquote class="cote__citation">{avis.texte}</blockquote>
+            <figcaption class="note cote__auteur">{avis.auteur}, {avis.ville}</figcaption>
+            {demo && <p class="micro cote__demo">Témoignage de démonstration.</p>}
+          </figure>
+        )}
+      </aside>
+
+    </div>
+  </section>
+
+  <section class="section section--serree voisins">
+    <div class="contenant reveler">
+      <p class="oeil">Les autres motifs</p>
+      <ul class="voisins__liste">
+        {autres.map((m) => (
+          <li>
+            <a class="carte carte--teintee voisins__carte" href={lien(`accompagnement/${m.slug}/`)} style={`--teinte: var(--${m.teinte})`}>
+              <span class="titre-3">{m.titre}</span>
+              <span class="note voisins__accroche">{m.accroche}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <BandeauRdv />
+</Base>
+
+<style>
+  .colonnes {
+    display: grid; grid-template-columns: 1.4fr .6fr;
+    gap: clamp(2rem, 5vw, 4rem); align-items: start;
+  }
+
+  .cote { display: grid; gap: var(--pas-4); position: sticky; top: 7rem; }
+  .cote__prix {
+    font-family: var(--police-titre); font-size: 2.4rem; line-height: 1;
+    margin-block: var(--pas-3) var(--pas-3);
+  }
+  .cote__lien {
+    display: inline-block; margin-top: var(--pas-4);
+    color: var(--accent); font-weight: 500; text-underline-offset: .22em;
+  }
+  .cote__citation { font-family: var(--police-titre); font-size: 1.08rem; line-height: 1.55; }
+  .cote__auteur { margin-top: var(--pas-4); padding-top: var(--pas-3); border-top: 1px solid var(--filet); }
+  .cote__demo { margin-top: var(--pas-2); color: var(--second); }
+
+  .voisins { border-top: 1px solid var(--filet); }
+  .voisins__liste { display: grid; grid-template-columns: 1fr 1fr; gap: var(--pas-4); margin-top: var(--pas-5); }
+  .voisins__carte { display: grid; gap: var(--pas-2); text-decoration: none; }
+  .voisins__accroche { color: var(--encre); opacity: .78; }
+
+  @media (max-width: 61rem) {
+    .colonnes { grid-template-columns: 1fr; }
+    .cote { position: static; }
+    .voisins__liste { grid-template-columns: 1fr; }
+  }
+</style>

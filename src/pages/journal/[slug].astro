@@ -1,0 +1,107 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import BandeauRdv from '../../components/BandeauRdv.astro';
+import { identite, lien } from '../../data/client.js';
+import { dateLisible, dateIso } from '../../data/dates.js';
+
+export async function getStaticPaths() {
+  const articles = await getCollection('journal', ({ data }) => !data.brouillon);
+  return articles.map((a) => ({
+    params: { slug: a.id },
+    props: { article: a, autres: articles.filter((x) => x.id !== a.id).slice(0, 2) },
+  }));
+}
+
+const { article, autres } = Astro.props;
+const { Content } = await render(article);
+---
+
+<Base titre={article.data.titre} description={article.data.chapo}>
+
+  <article class="papier">
+    <header class="section section--serree tete">
+      <div class="contenant tete__bloc">
+        <a class="retour" href={lien('journal/')}>Journal</a>
+        <p class="micro tete__meta chiffres entree" style="--d: 60ms">
+          <time datetime={dateIso(article.data.date)}>{dateLisible(article.data.date)}</time>
+          <span class="tete__motif">{article.data.motif}</span>
+          <span>{article.data.lecture} de lecture</span>
+        </p>
+        <h1 class="display tete__titre entree" style="--d: 160ms">{article.data.titre}</h1>
+        <p class="chapo tete__chapo entree" style="--d: 300ms">{article.data.chapo}</p>
+      </div>
+    </header>
+
+    <div class="section corps">
+      <div class="contenant">
+        <div class="prose">
+          <Content />
+        </div>
+
+        <p class="note signature">
+          {identite.nom}, {identite.metier.toLowerCase()} à {identite.ville}.
+          Rien de ce qui est écrit ici ne remplace un avis médical.
+        </p>
+      </div>
+    </div>
+  </article>
+
+  {autres.length > 0 && (
+    <section class="section section--serree suite">
+      <div class="contenant reveler">
+        <p class="oeil">À lire ensuite</p>
+        <ul class="suite__liste">
+          {autres.map((a) => (
+            <li>
+              <a class="carte carte--survol suite__carte" href={lien(`journal/${a.id}/`)}>
+                <span class="micro chiffres suite__meta">{dateLisible(a.data.date)}</span>
+                <span class="titre-3 suite__titre">{a.data.titre}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  )}
+
+  <BandeauRdv />
+</Base>
+
+<style>
+  .tete { border-bottom: 1px solid var(--filet); }
+  .tete__bloc { max-width: 56rem; }
+  .retour {
+    display: inline-block; margin-bottom: var(--pas-5);
+    font-size: .82rem; text-transform: uppercase; letter-spacing: .13em;
+    color: var(--accent); text-decoration: none;
+  }
+  .retour:hover { text-decoration: underline; text-underline-offset: .3em; }
+  .tete__meta {
+    display: flex; flex-wrap: wrap; align-items: center; gap: var(--pas-3);
+    color: var(--second); letter-spacing: .04em;
+  }
+  .tete__motif {
+    padding: .15rem .55rem; border-radius: var(--r-pill);
+    background: var(--brume); color: var(--encre);
+  }
+  .tete__titre {
+    font-size: clamp(2rem, 4.4vw, 3.2rem);
+    margin-block: var(--pas-4); max-width: 22ch;
+  }
+  .tete__chapo { max-width: 58ch; }
+
+  .signature {
+    max-width: 66ch; margin-top: var(--pas-8);
+    padding-top: var(--pas-4); border-top: 1px solid var(--filet);
+  }
+
+  .suite { background: var(--voile); border-block: 1px solid var(--filet); }
+  .suite__liste { display: grid; grid-template-columns: 1fr 1fr; gap: var(--pas-4); margin-top: var(--pas-5); }
+  .suite__carte { display: grid; gap: var(--pas-3); text-decoration: none; }
+  .suite__meta { color: var(--second); letter-spacing: .04em; }
+
+  @media (max-width: 48rem) {
+    .suite__liste { grid-template-columns: 1fr; }
+  }
+</style>

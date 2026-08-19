@@ -1,0 +1,203 @@
+---
+import Base from '../layouts/Base.astro';
+import EnTetePage from '../components/EnTetePage.astro';
+import BandeauRdv from '../components/BandeauRdv.astro';
+import { identite, contact, bilan, limites, parcours, lien } from '../data/client.js';
+---
+
+<Base
+  titre="La consultation"
+  description="Comment se passe une consultation de naturopathie à Juillan : appel de 15 minutes offert, bilan de vitalité d’1 h 30 à 75 €, plan écrit remis à la fin, suivi à 55 €."
+>
+  <EnTetePage
+    oeil="Comment ça se passe ?"
+    titre="Une première séance dure 1 h 30."
+    chapo="Une heure ne suffit pas à faire le tour. On prend le temps de reprendre vos repas, votre sommeil, votre digestion et votre rythme de vie avant de changer quoi que ce soit."
+  />
+
+  <!-- Les quatre etapes, en detail cette fois -->
+  <section class="section etapes">
+    <div class="contenant">
+      <ol class="etapes__liste">
+        {parcours.map((etape, i) => (
+          <li class="etapes__item reveler">
+            <div class="etapes__numero">
+              <span class="chiffres">{String(i + 1).padStart(2, '0')}</span>
+            </div>
+            <div class="etapes__corps">
+              <h2 class="titre-3">{etape.titre}</h2>
+              <p class="micro chiffres etapes__meta">
+                <span>{etape.duree}</span>
+                <span class="etapes__prix">{etape.prix}</span>
+              </p>
+              <p>{etape.texte}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- Le contenu du bilan -->
+  <section class="section sur-encre bilan">
+    <div class="contenant bilan__grille">
+      <div class="reveler">
+        <p class="oeil">Qu’est-ce qu’on regarde ?</p>
+        <h2 class="titre-2 bilan__titre">Six sujets, une heure et demie.</h2>
+        <p class="chapo">
+          Rien d’ésotérique et aucune machine. On reprend votre quotidien dans le détail, parce que
+          c’est là que se trouvent les leviers.
+        </p>
+      </div>
+      <ul class="bilan__liste reveler">
+        {bilan.map((ligne, i) => (
+          <li class="bilan__ligne">
+            <span class="chiffres bilan__index">{String(i + 1).padStart(2, '0')}</span>
+            {ligne}
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- Le plan ecrit -->
+  <section class="section plan">
+    <div class="contenant plan__grille">
+      <div class="prose reveler">
+        <p class="oeil">Avec quoi je repars ?</p>
+        <h2 class="titre-2 plan__titre">Un plan d’une page, pas une ordonnance.</h2>
+        <p>
+          À la fin de la séance, vous repartez avec un document écrit. Il tient sur une page et il
+          contient trois ou quatre changements, classés par ordre de priorité, avec ce qu’on
+          regardera à la séance suivante.
+        </p>
+        <p>
+          Trois ou quatre, parce qu’au delà personne ne tient. L’intérêt n’est pas de tout changer,
+          il est de changer ce qui pèse le plus dans votre situation.
+        </p>
+        <h3>Ce que le plan n’est pas</h3>
+        <ul>
+          <li>Une liste de compléments alimentaires à acheter. Je n’en vends aucun.</li>
+          <li>Un régime à suivre à la lettre pendant trois mois.</li>
+          <li>Un document type, identique d’une personne à l’autre.</li>
+        </ul>
+      </div>
+
+      <aside class="carte plan__cadre reveler">
+        <p class="oeil">Et la visioconférence ?</p>
+        <p class="plan__cadreTexte">
+          La séance en visioconférence dure aussi longtemps et coûte le même prix. Elle convient
+          bien au suivi, et aux personnes qui habitent à plus de vingt minutes du cabinet.
+        </p>
+        <p class="note">
+          Au cabinet, {contact.acces.toLowerCase()} {contact.distance}
+        </p>
+        <a class="plan__lien" href={lien('contact/')}>Voir comment venir</a>
+      </aside>
+    </div>
+  </section>
+
+  <!-- Les limites -->
+  <section class="section section--serree cadre">
+    <div class="contenant cadre__grille reveler">
+      <div>
+        <p class="oeil">Ce que je ne fais pas</p>
+        <h2 class="titre-3 cadre__phrase">
+          Si vos symptômes sont récents ou inhabituels, commencez par votre médecin.
+        </h2>
+      </div>
+      <div>
+        <ul class="cadre__liste">
+          {limites.map((l) => (
+            <li class="cadre__item note">
+              <span class="cadre__marque" aria-hidden="true"></span>
+              {l}
+            </li>
+          ))}
+        </ul>
+        <p class="note cadre__note">
+          La naturopathie n’est pas une profession de santé réglementée en France.
+          {' '}{identite.nom.split(' ')[0]} intervient en complément de votre suivi médical, jamais à sa place.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <BandeauRdv
+    titre="Vous hésitez encore ?"
+    texte="L’appel de 15 minutes existe exactement pour ça. Il est offert, et il sert autant à vous qu’à moi."
+  />
+</Base>
+
+<style>
+  /* ---------- Les quatre etapes -------------------------------------- */
+  .etapes__liste { display: grid; gap: var(--pas-6); max-width: 52rem; }
+  .etapes__item {
+    display: grid; grid-template-columns: auto 1fr; gap: var(--pas-5);
+    padding-top: var(--pas-5); border-top: 1px solid var(--filet);
+  }
+  .etapes__numero {
+    display: grid; place-items: center;
+    width: 3rem; height: 3rem; border-radius: 50%;
+    border: 1px solid var(--filet-fort);
+    font-family: var(--police-titre); color: var(--accent);
+    font-size: .95rem; letter-spacing: .05em;
+  }
+  .etapes__meta {
+    display: flex; gap: var(--pas-3); align-items: center;
+    margin-block: var(--pas-2) var(--pas-3);
+    color: var(--second); letter-spacing: .04em;
+  }
+  .etapes__prix {
+    padding: .15rem .55rem; border-radius: var(--r-pill);
+    background: var(--voile); border: 1px solid var(--filet); color: var(--encre);
+  }
+  .etapes__corps p:last-child { max-width: 60ch; }
+
+  /* ---------- Le bilan ------------------------------------------------ */
+  .bilan__grille {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: clamp(2rem, 5vw, 4rem); align-items: start;
+  }
+  .bilan__titre { margin-block: var(--pas-4); }
+  .bilan__liste { display: grid; gap: var(--pas-3); }
+  .bilan__ligne {
+    display: flex; align-items: baseline; gap: var(--pas-4);
+    padding-bottom: var(--pas-3); border-bottom: 1px solid var(--filet);
+  }
+  .bilan__index { color: var(--accent); font-size: .82rem; letter-spacing: .06em; }
+
+  /* ---------- Le plan ------------------------------------------------- */
+  .plan__grille {
+    display: grid; grid-template-columns: 1.35fr .65fr;
+    gap: clamp(2rem, 5vw, 4rem); align-items: start;
+  }
+  .plan__titre { margin-block: var(--pas-4) var(--pas-2); }
+  .plan__cadre { position: sticky; top: 7rem; }
+  .plan__cadreTexte { margin-block: var(--pas-4); }
+  .plan__lien {
+    display: inline-block; margin-top: var(--pas-4);
+    color: var(--accent); font-weight: 500; text-underline-offset: .22em;
+  }
+
+  /* ---------- Le cadre ------------------------------------------------ */
+  .cadre { background: var(--voile); border-block: 1px solid var(--filet); }
+  .cadre__grille { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(1.5rem, 4vw, 3.5rem); }
+  .cadre__phrase { margin-top: var(--pas-3); max-width: 28ch; }
+  .cadre__liste { display: grid; gap: var(--pas-3); }
+  .cadre__item { display: flex; align-items: baseline; gap: var(--pas-3); }
+  .cadre__marque {
+    width: .6rem; height: 2px; flex: 0 0 auto;
+    background: var(--accent); border-radius: var(--r-pill);
+    transform: translateY(-.25rem);
+  }
+  .cadre__note { margin-top: var(--pas-5); padding-top: var(--pas-4); border-top: 1px solid var(--filet); }
+
+  @media (max-width: 61rem) {
+    .bilan__grille, .plan__grille, .cadre__grille { grid-template-columns: 1fr; }
+    .plan__cadre { position: static; }
+  }
+  @media (max-width: 34rem) {
+    .etapes__item { grid-template-columns: 1fr; gap: var(--pas-3); }
+  }
+</style>

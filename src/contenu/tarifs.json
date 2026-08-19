@@ -1,0 +1,40 @@
+{
+  "prestations": [
+    {
+      "nom": "Appel de découverte",
+      "detail": "Par téléphone, pour savoir si je peux vous être utile.",
+      "duree": "15 min",
+      "prix": "Offert"
+    },
+    {
+      "nom": "Première consultation",
+      "detail": "Le bilan de vitalité, plan écrit remis à la fin.",
+      "duree": "1 h 30",
+      "prix": "75 €"
+    },
+    {
+      "nom": "Consultation de suivi",
+      "detail": "On regarde ce qui a tenu, puis on ajuste.",
+      "duree": "1 h",
+      "prix": "55 €"
+    },
+    {
+      "nom": "Forfait 3 suivis",
+      "detail": "À utiliser dans les six mois.",
+      "duree": "3 × 1 h",
+      "prix": "150 €"
+    },
+    {
+      "nom": "Visioconférence",
+      "detail": "Même durée, même déroulé, même plan écrit.",
+      "duree": "Idem",
+      "prix": "Même tarif"
+    }
+  ],
+  "paiement": {
+    "moyens": "Carte, espèces ou virement, à la fin de la séance.",
+    "facture": "Une facture est remise systématiquement. Certaines mutuelles remboursent tout ou partie des séances.",
+    "annulation": "Annulation possible jusqu’à 24 h avant le rendez-vous.",
+    "duree": "Un accompagnement type, c’est trois à quatre séances réparties sur trois mois."
+  }
+}

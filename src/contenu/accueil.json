@@ -1,0 +1,58 @@
+{
+  "heroOeil": "Première séance · 1 h 30",
+  "heroLigne1": "Ce que vous mangez,",
+  "heroLigne2": "comment vous dormez,",
+  "heroLigne3Avant": "à quel",
+  "heroLigne3Souligne": "rythme",
+  "heroLigne3Apres": "vous vivez.",
+  "heroChapo": "On fait le tour en une séance d’1 h 30, puis vous repartez avec un plan écrit de trois ou quatre changements. Il n’y a rien à acheter.",
+  "heroDisponibilite": "Je reçois de nouvelles personnes en ce moment.",
+  "bilanTitre": "Le bilan de vitalité",
+  "bilanPied": "Un plan écrit d’une page, remis à la fin de la séance.",
+  "bilan": [
+    "Vos repas et vos horaires",
+    "Votre sommeil",
+    "Votre digestion",
+    "Votre activité physique",
+    "Vos périodes de stress",
+    "Vos antécédents et traitements"
+  ],
+  "limitesPhrase": "Si vos symptômes sont récents ou inhabituels, commencez par votre médecin.",
+  "limites": [
+    "Je ne pose pas de diagnostic",
+    "Je ne prescris rien",
+    "Je ne demande jamais d’arrêter un traitement",
+    "Je ne vends aucun complément"
+  ],
+  "motifsTitre": "Trois motifs, pas quinze.",
+  "motifsTexte": "Une naturopathe qui annonce traiter les allergies, la perte de poids, l’acné et la performance sportive à la fois ne convainc personne. Je travaille sur trois terrains.",
+  "parcoursTitre": "Quatre étapes, dans cet ordre.",
+  "parcours": [
+    {
+      "titre": "L’appel de découverte",
+      "duree": "15 min",
+      "prix": "Offert",
+      "texte": "Vous me dites ce qui vous amène, je vous dis si je suis la bonne personne. Si votre situation relève d’abord de votre médecin, je vous le dis à ce moment là."
+    },
+    {
+      "titre": "Le bilan de vitalité",
+      "duree": "1 h 30",
+      "prix": "75 €",
+      "texte": "On passe en revue vos repas, votre sommeil, votre digestion, votre activité et vos périodes de stress. Une heure ne suffit pas à faire le tour."
+    },
+    {
+      "titre": "Le plan écrit",
+      "duree": "Remis à la fin",
+      "prix": "Compris",
+      "texte": "Trois ou quatre changements concrets, classés par ordre de priorité, sur une page. Ce n’est pas une liste de compléments à acheter."
+    },
+    {
+      "titre": "Le suivi",
+      "duree": "1 h",
+      "prix": "55 €",
+      "texte": "On regarde ce qui a tenu et ce qui n’a pas tenu, puis on ajuste. Un accompagnement type, c’est trois à quatre séances sur trois mois."
+    }
+  ],
+  "aproposTexte": "J’ai suivi une formation de naturopathie en 1 200 heures, puis deux formations complémentaires sur le microbiote et sur le cycle féminin.",
+  "aproposTexte2": "Je reçois au cabinet ou en visioconférence. Une séance dure le temps qu’il faut pour faire le tour, et je vous dis dès le premier appel si je ne suis pas la bonne personne pour vous."
+}

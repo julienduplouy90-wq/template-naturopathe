@@ -1,0 +1,141 @@
+---
+import { identite, contact, horaires, navigation, zone, demo, lien, lienRdv } from '../data/client.js';
+const annee = new Date().getFullYear();
+---
+
+<footer class="pied sur-encre">
+  <div class="contenant">
+
+    <div class="pied__haut">
+      <div class="pied__marque">
+        <span class="pied__monogramme" aria-hidden="true">{identite.initiales}</span>
+        <p class="titre-3 pied__nom">{identite.nom}</p>
+        <p class="note">{identite.metier} à {identite.ville}, à 5 minutes de {identite.villeReference}. Au cabinet ou en visioconférence.</p>
+        <a class="bouton bouton--principal pied__bouton" href={lienRdv()}>
+          <span class="bouton__fleche" aria-hidden="true">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M1 6h9M6.5 2.5 10 6l-3.5 3.5"/></svg>
+          </span>
+          Réserver l’appel de 15 minutes
+        </a>
+      </div>
+
+      <nav class="pied__colonne" aria-label="Pages du site">
+        <h2 class="pied__titre">Le site</h2>
+        <ul class="pile" style="--pile: var(--pas-2)">
+          {navigation.map((item) => (
+            <li><a class="pied__lien" href={lien(item.href)}>{item.libelle}</a></li>
+          ))}
+          <li><a class="pied__lien" href={lien('contact/')}>Contact</a></li>
+        </ul>
+      </nav>
+
+      <div class="pied__colonne">
+        <h2 class="pied__titre">Le cabinet</h2>
+        <address class="pied__adresse note">
+          {contact.adresse}<br />
+          {contact.codePostal} {identite.ville}<br />
+          <a class="pied__lien" href={`tel:${contact.telephoneLien}`}>{contact.telephone}</a><br />
+          <a class="pied__lien" href={`mailto:${contact.email}`}>{contact.email}</a>
+        </address>
+        <p class="note pied__acces">{contact.acces}</p>
+      </div>
+
+      <div class="pied__colonne">
+        <h2 class="pied__titre">Horaires</h2>
+        <ul class="pile note" style="--pile: var(--pas-2)">
+          {horaires.map((h) => (
+            <li class="pied__horaire"><span>{h.jours}</span><span class="chiffres">{h.h}</span></li>
+          ))}
+        </ul>
+        <p class="note pied__acces">Uniquement sur rendez-vous.</p>
+      </div>
+    </div>
+
+    <p class="note pied__zone">
+      <span class="pied__titre pied__titre--enligne">Zone :</span>
+      {zone.join(', ')}. En visioconférence, partout.
+    </p>
+
+    <hr class="filet pied__filet" />
+
+    <div class="pied__bas">
+      <p class="micro pied__mention">
+        La naturopathie n’est pas une profession de santé réglementée en France.
+        {identite.nom.split(' ')[0]} ne pose pas de diagnostic, ne prescrit rien et ne demande jamais
+        d’interrompre un traitement médical. Rien de ce qui est proposé ici ne remplace un avis médical.
+      </p>
+      <ul class="micro pied__legal">
+        <li><a class="pied__lien" href={lien('mentions-legales/')}>Mentions légales</a></li>
+        <li><a class="pied__lien" href={lien('politique-de-confidentialite/')}>Confidentialité</a></li>
+        <li>© {annee} {identite.nom}</li>
+      </ul>
+    </div>
+
+    {demo && (
+      <p class="micro pied__demo">
+        Site de démonstration. {identite.nom} est une praticienne fictive : le nom, l’adresse, les
+        tarifs, la formation et les témoignages sont des marqueurs destinés à présenter le modèle.
+      </p>
+    )}
+
+  </div>
+</footer>
+
+<style>
+  .pied { padding-block: clamp(3.5rem, 7vw, 5.5rem) var(--pas-6); }
+
+  .pied__haut {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr 1.2fr 1.1fr;
+    gap: clamp(2rem, 4vw, 3.5rem);
+  }
+
+  .pied__monogramme {
+    display: grid; place-items: center;
+    width: 2.9rem; height: 2.9rem; margin-bottom: var(--pas-4);
+    border-radius: var(--r-s);
+    background: rgb(255 255 255 / .1);
+    font-family: var(--police-titre); font-size: 1.05rem;
+  }
+  .pied__nom { margin-bottom: var(--pas-2); }
+  .pied__bouton { margin-top: var(--pas-5); }
+
+  .pied__titre {
+    font-size: .74rem; font-weight: 500; text-transform: uppercase;
+    letter-spacing: .13em; color: var(--accent);
+    margin-bottom: var(--pas-4);
+  }
+  .pied__titre--enligne { display: inline; margin: 0; margin-right: .35rem; }
+
+  .pied__lien {
+    text-decoration: none; color: var(--second);
+    transition: color var(--t-rapide) var(--courbe);
+  }
+  .pied__lien:hover { color: var(--papier); }
+
+  .pied__adresse { font-style: normal; }
+  .pied__acces { margin-top: var(--pas-3); }
+
+  .pied__horaire { display: flex; justify-content: space-between; gap: var(--pas-4); }
+
+  .pied__zone { margin-top: clamp(2.5rem, 5vw, 4rem); max-width: 62ch; }
+  .pied__filet { margin-block: var(--pas-6); }
+
+  .pied__bas { display: flex; flex-wrap: wrap; gap: var(--pas-5); justify-content: space-between; align-items: start; }
+  .pied__mention { max-width: 62ch; color: var(--second); }
+  .pied__legal { display: flex; flex-wrap: wrap; gap: var(--pas-4); color: var(--second); }
+
+  .pied__demo {
+    margin-top: var(--pas-6);
+    padding: var(--pas-4);
+    border: 1px dashed var(--filet-fort); border-radius: var(--r-s);
+    color: var(--second); max-width: 78ch;
+  }
+
+  @media (max-width: 61rem) {
+    .pied__haut { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 34rem) {
+    .pied__haut { grid-template-columns: 1fr; }
+  }
+</style>

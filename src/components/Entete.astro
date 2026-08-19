@@ -1,0 +1,130 @@
+---
+import { identite, navigation, lien, lienRdv } from '../data/client.js';
+const chemin = Astro.url.pathname;
+---
+
+<header class="entete" data-entete>
+  <div class="contenant entete__barre">
+
+    <a class="marque" href={lien('')}>
+      <span class="marque__monogramme" aria-hidden="true">{identite.initiales}</span>
+      <span class="marque__texte">
+        <span class="marque__nom">{identite.nom}</span>
+        <span class="marque__metier">{identite.metier} · {identite.ville}</span>
+      </span>
+    </a>
+
+    <button class="bascule" data-bascule-menu aria-expanded="false" aria-controls="menu-principal">
+      <span class="lecteur-seul">Ouvrir le menu</span>
+      <span class="bascule__trait" aria-hidden="true"></span>
+      <span class="bascule__trait" aria-hidden="true"></span>
+    </button>
+
+    <nav class="menu" id="menu-principal" data-menu aria-label="Navigation principale">
+      <ul class="menu__liste">
+        {navigation.map((item) => (
+          <li>
+            <a
+              class="menu__lien"
+              href={lien(item.href)}
+              aria-current={chemin.endsWith('/' + item.href) ? 'page' : undefined}
+            >{item.libelle}</a>
+          </li>
+        ))}
+      </ul>
+      <a class="bouton bouton--principal menu__rdv" href={lienRdv()}>
+        <span class="bouton__fleche" aria-hidden="true">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M1 6h9M6.5 2.5 10 6l-3.5 3.5"/></svg>
+        </span>
+        Réserver l’appel
+      </a>
+    </nav>
+
+  </div>
+</header>
+
+<style>
+  .entete {
+    position: sticky; top: 0; z-index: 50;
+    transition: background-color var(--t-moyen) var(--courbe),
+                box-shadow var(--t-moyen) var(--courbe),
+                border-color var(--t-moyen) var(--courbe);
+    border-bottom: 1px solid transparent;
+  }
+  .entete.est-posee {
+    background: color-mix(in srgb, var(--papier) 88%, transparent);
+    backdrop-filter: blur(10px);
+    border-bottom-color: var(--filet);
+    box-shadow: var(--ombre-1);
+  }
+  .entete__barre {
+    display: flex; align-items: center; gap: var(--pas-5);
+    padding-block: var(--pas-4);
+  }
+
+  /* --- Monogramme : le logo se genere depuis les initiales --------------- */
+  .marque { display: flex; align-items: center; gap: var(--pas-3); text-decoration: none; margin-right: auto; }
+  .marque__monogramme {
+    display: grid; place-items: center;
+    width: 2.9rem; height: 2.9rem;
+    border-radius: var(--r-s);
+    background: var(--encre); color: var(--papier);
+    font-family: var(--police-titre); font-size: 1.05rem; letter-spacing: .02em;
+    flex: 0 0 auto;
+  }
+  .marque__texte { display: flex; flex-direction: column; line-height: 1.2; }
+  .marque__nom { font-family: var(--police-titre); font-size: 1.2rem; }
+  .marque__metier { font-size: .74rem; text-transform: uppercase; letter-spacing: .11em; color: var(--second); }
+
+  /* --- Navigation -------------------------------------------------------- */
+  .menu { display: flex; align-items: center; gap: var(--pas-6); }
+  .menu__liste { display: flex; align-items: center; gap: var(--pas-5); }
+  .menu__lien {
+    position: relative; text-decoration: none; font-size: .96rem;
+    padding-block: .35rem;
+    transition: color var(--t-rapide) var(--courbe);
+  }
+  .menu__lien::after {
+    content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 1.5px;
+    background: var(--accent); border-radius: var(--r-pill);
+    transform: scaleX(0); transform-origin: left;
+    transition: transform var(--t-moyen) var(--courbe);
+  }
+  .menu__lien:hover { color: var(--accent); }
+  .menu__lien:hover::after,
+  .menu__lien[aria-current='page']::after { transform: scaleX(1); }
+  .menu__lien[aria-current='page'] { color: var(--accent); }
+
+  /* --- Bascule mobile ---------------------------------------------------- */
+  .bascule {
+    display: none;
+    width: 2.9rem; height: 2.9rem;
+    border: 1px solid var(--filet-fort); border-radius: var(--r-s);
+    background: transparent; cursor: pointer;
+    place-items: center; gap: 5px; align-content: center;
+  }
+  .bascule__trait { width: 1.05rem; height: 1.5px; background: var(--encre); border-radius: var(--r-pill); transition: transform var(--t-moyen) var(--courbe); }
+  .bascule[aria-expanded='true'] .bascule__trait:first-of-type { transform: translateY(3.25px) rotate(45deg); }
+  .bascule[aria-expanded='true'] .bascule__trait:last-of-type { transform: translateY(-3.25px) rotate(-45deg); }
+
+  @media (max-width: 61rem) {
+    .bascule { display: grid; }
+    .menu {
+      position: absolute; left: 0; right: 0; top: 100%;
+      flex-direction: column; align-items: stretch; gap: var(--pas-4);
+      padding: var(--pas-5) var(--gouttiere) var(--pas-6);
+      background: var(--voile);
+      border-bottom: 1px solid var(--filet);
+      box-shadow: var(--ombre-2);
+    }
+    /* L'etat ferme vient du CSS, pas d'un attribut pose par JS :
+       le menu ne peut donc pas rester ouvert avant que le script tourne. */
+    .menu { display: none; }
+    .menu[data-ouvert='true'] { display: flex; }
+    .menu__liste { flex-direction: column; align-items: stretch; gap: 0; }
+    .menu__lien { display: block; padding-block: var(--pas-3); border-bottom: 1px solid var(--filet); }
+    .menu__lien::after { display: none; }
+    .menu__rdv { justify-content: center; margin-top: var(--pas-2); }
+    .marque__metier { display: none; }
+  }
+</style>

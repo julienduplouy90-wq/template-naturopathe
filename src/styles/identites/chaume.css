@@ -1,0 +1,47 @@
+/* ==========================================================================
+   IDENTITE  ·  CHAUME
+   Prune sourde, vert d'eau en accent. Registre calme et lisible.
+   Pour les seniors et la prevention : c'est la seule identite qui releve
+   le corps de texte et qui vise des contrastes plus hauts que le minimum.
+   ========================================================================== */
+
+@font-face { font-family: 'Zodiak'; src: url('../../fonts/zodiak-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Zodiak'; src: url('../../fonts/zodiak-400-italic.woff2') format('woff2'); font-weight: 400; font-style: italic; font-display: swap; }
+@font-face { font-family: 'Zodiak'; src: url('../../fonts/zodiak-700.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Zodiak'; src: url('../../fonts/zodiak-700-italic.woff2') format('woff2'); font-weight: 700; font-style: italic; font-display: swap; }
+@font-face { font-family: 'Switzer'; src: url('../../fonts/switzer-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Switzer'; src: url('../../fonts/switzer-500.woff2') format('woff2'); font-weight: 500; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Switzer'; src: url('../../fonts/switzer-700.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+
+:root {
+  --police-titre: 'Zodiak', Georgia, 'Times New Roman', serif;
+  --police-texte: 'Switzer', 'Helvetica Neue', Arial, sans-serif;
+
+  --encre: #33232F;        /* prune tres sombre, 12,4:1 sur papier */
+  --papier: #EFEAE8;
+  --voile: #FBF8F7;
+  --second: #5C4A57;       /* 6,8:1 : plus haut que le minimum, volontairement */
+  --accent: #7A3A5C;       /* prune, 6,8:1 */
+  --accent-vif: #A4527C;
+  --accent-fonce: #632E4A; /* texte pose sur une carte teintee, 8,3:1 mini */
+  --dispo: #2F7D5A;
+
+  --sur-encre-second: #BCA8B7;   /* 6,6:1 sur encre */
+  --sur-encre-accent: #D79BB8;   /* 6,5:1 sur encre */
+
+  --argile: #EDE4D8;
+  --brume: #D7E4E0;
+  --gres: #E7DCE4;
+
+  --filet: rgb(51 35 47 / .14);
+  --filet-fort: rgb(51 35 47 / .28);
+
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)' opacity='.03'/%3E%3C/svg%3E");
+  --voile-photo: rgb(180 150 165 / .10);
+
+  /* Le corps de texte monte : c'est la difference qui compte pour cette cible. */
+  --taille-corps: 1.13rem;
+
+  --r-m: 18px;
+  --r-l: 24px;
+}

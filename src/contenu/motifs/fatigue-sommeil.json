@@ -1,0 +1,25 @@
+{
+  "ordre": 2,
+  "slug": "fatigue-sommeil",
+  "titre": "Fatigue et sommeil",
+  "titreLong": "Réveils fatigués, coups de barre, stress qui dure",
+  "teinte": "brume",
+  "accroche": "Réveils fatigués malgré huit heures, coups de barre, stress qui dure.",
+  "texte": "La lumière du soir, l’heure du dîner et le rythme des journées expliquent souvent une bonne partie de la fatigue.",
+  "chapo": "Dormir huit heures et se réveiller fatiguée, ce n’est pas une question de volonté. C’est en général une question de rythme, et le rythme, ça se regarde en détail.",
+  "signes": [
+    "Vous vous réveillez fatiguée malgré une nuit complète",
+    "Le coup de barre de 15 h est devenu un rendez-vous",
+    "Vous vous endormez vite mais vous vous réveillez à 4 h",
+    "Les week-ends ne suffisent plus à rattraper"
+  ],
+  "regarde": [
+    "L’heure du dîner et sa composition, qui pèsent sur la qualité de la nuit",
+    "La lumière du soir et celle du matin, dans cet ordre d’importance",
+    "La caféine, son horaire plus que sa quantité",
+    "Les périodes de stress prolongé et ce qui les entretient au quotidien"
+  ],
+  "change": "On agit d’abord sur deux ou trois leviers, jamais sur dix. Les personnes que je reçois voient en général un changement sur la qualité du réveil avant d’en voir un sur la durée du sommeil.",
+  "prudence": "Une fatigue installée mérite un bilan sanguin. Si vous n’en avez pas eu récemment, commencez par là : je ne pose pas de diagnostic et je ne remplace pas cet examen.",
+  "temoignage": 1
+}

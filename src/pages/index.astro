@@ -1,0 +1,405 @@
+---
+import Base from '../layouts/Base.astro';
+import BandeauRdv from '../components/BandeauRdv.astro';
+import {
+  identite, contact, accueil, bilan, limites, motifs, parcours,
+  formation, temoignages, demo, lien, lienRdv,
+} from '../data/client.js';
+
+const fleche = `<svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M1 6h9M6.5 2.5 10 6l-3.5 3.5"/></svg>`;
+---
+
+<Base
+  titre="Naturopathe à Juillan, près de Tarbes"
+  description="Naturopathe à Juillan, à 5 minutes de Tarbes. Première séance d’1 h 30 à 75 €, plan écrit remis à la fin, suivi sur trois mois. Appel de découverte de 15 minutes offert."
+>
+
+  <!-- ====================================================================
+       HERO  ·  la fiche du bilan de vitalite est l'element signature
+       ==================================================================== -->
+  <section class="hero">
+    <div class="contenant hero__grille">
+
+      <div class="hero__texte">
+        <p class="oeil entree" style="--d: 80ms">{accueil.heroOeil}</p>
+
+        <h1 class="display hero__titre">
+          <span class="entree" style="--d: 220ms">{accueil.heroLigne1}</span>
+          <span class="entree" style="--d: 350ms">{accueil.heroLigne2}</span>
+          <span class="entree" style="--d: 480ms">
+            {accueil.heroLigne3Avant}
+            {' '}<em class="trait" style="--d: 900ms">{accueil.heroLigne3Souligne}</em>
+            {' '}{accueil.heroLigne3Apres}
+          </span>
+        </h1>
+
+        <p class="chapo hero__chapo entree" style="--d: 700ms">
+          {identite.metier} à {identite.ville}, à 5 minutes de {identite.villeReference}.
+          {' '}{accueil.heroChapo}
+        </p>
+
+        <div class="hero__actions entree" style="--d: 820ms">
+          <a class="bouton bouton--principal" href={lienRdv()}>
+            <span class="bouton__fleche" aria-hidden="true" set:html={fleche} />
+            Réserver l’appel de 15 minutes
+          </a>
+          <a class="bouton bouton--second" href="#parcours">Voir comment ça se passe</a>
+        </div>
+
+        {identite.accepteNouveaux && (
+          <p class="pastille entree hero__dispo" style="--d: 940ms">
+            <span class="pastille__point" aria-hidden="true"></span>
+            {accueil.heroDisponibilite}
+          </p>
+        )}
+      </div>
+
+      <div class="hero__visuel">
+        <div class="fiche entree" style="--d: 620ms">
+          <div class="fiche__entete">
+            <p class="fiche__titre titre-3">{accueil.bilanTitre}</p>
+            <p class="micro chiffres fiche__meta">1 h 30 · 75 €</p>
+          </div>
+          <p class="note fiche__intro">Ce qu’on passe en revue ensemble :</p>
+          <ul class="fiche__liste">
+            {bilan.map((ligne, i) => (
+              <li class="fiche__ligne entree" style={`--d: ${1000 + i * 110}ms`}>
+                <span class="fiche__coche" aria-hidden="true">
+                  <svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6.4 4.7 9 10 3.2"/></svg>
+                </span>
+                {ligne}
+              </li>
+            ))}
+          </ul>
+          <p class="note fiche__pied">{accueil.bilanPied}</p>
+        </div>
+
+        <figure class="photo photo--portrait photo--inclinee hero__portrait entree" style="--d: 1250ms">
+          <img src={lien('images/portrait-a-venir.svg')} alt={`${identite.nom}, ${identite.metier.toLowerCase()} à ${identite.ville}`} width="400" height="500" />
+        </figure>
+
+        <p class="pastille entree hero__preuve" style="--d: 1500ms">
+          <span class="chiffres">{formation.heures} h</span> de formation · en exercice depuis <span class="chiffres">{identite.depuis}</span>
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ====================================================================
+       LES LIMITES  ·  ce qu'on refuse de promettre rassure plus qu'une promesse
+       ==================================================================== -->
+  <section class="section section--serree limites">
+    <div class="contenant limites__grille reveler">
+      <div>
+        <p class="oeil">Avant d’aller plus loin</p>
+        <p class="limites__phrase titre-3">{accueil.limitesPhrase}</p>
+      </div>
+      <ul class="limites__liste">
+        {limites.map((l) => (
+          <li class="limites__item note">
+            <span class="limites__marque" aria-hidden="true"></span>
+            {l}
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- ====================================================================
+       LES MOTIFS
+       ==================================================================== -->
+  <section class="section motifs" id="motifs">
+    <div class="contenant">
+      <div class="entete-section reveler">
+        <p class="oeil">Qu’est-ce qui vous amène ?</p>
+        <h2 class="titre-2">{accueil.motifsTitre}</h2>
+        <p class="chapo entete-section__texte">{accueil.motifsTexte}</p>
+      </div>
+
+      <ul class="motifs__grille">
+        {motifs.map((m, i) => (
+          <li class="reveler" style={`transition-delay: ${i * 90}ms`}>
+            <a class="carte carte--teintee motifs__carte" href={lien(`accompagnement/${m.slug}/`)} style={`--teinte: var(--${m.teinte})`}>
+              <p class="titre-3 motifs__titre">{m.titre}</p>
+              <p class="motifs__accroche">{m.accroche}</p>
+              <p class="note motifs__texte">{m.texte}</p>
+              <span class="motifs__lien">
+                En savoir plus
+                <span class="motifs__fleche" aria-hidden="true" set:html={fleche} />
+              </span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- ====================================================================
+       LE PARCOURS  ·  seule numerotation du site, parce que l'ordre compte
+       ==================================================================== -->
+  <section class="section section--large sur-encre parcours" id="parcours">
+    <div class="contenant">
+      <div class="entete-section reveler">
+        <p class="oeil">Comment ça se passe ?</p>
+        <h2 class="titre-2">{accueil.parcoursTitre}</h2>
+      </div>
+
+      <ol class="parcours__grille">
+        {parcours.map((etape, i) => (
+          <li class="parcours__etape reveler" style={`transition-delay: ${i * 90}ms`}>
+            <span class="parcours__numero chiffres">{String(i + 1).padStart(2, '0')}</span>
+            <p class="titre-3 parcours__titre">{etape.titre}</p>
+            <p class="micro chiffres parcours__meta">
+              <span>{etape.duree}</span>
+              <span class="parcours__prix">{etape.prix}</span>
+            </p>
+            <p class="note">{etape.texte}</p>
+          </li>
+        ))}
+      </ol>
+
+      <p class="note parcours__pied reveler">
+        Règlement par carte, espèces ou virement à la fin de la séance. Une facture est remise
+        systématiquement, certaines mutuelles remboursent une partie.
+        <a class="parcours__lien" href={lien('tarifs/')}>Voir tous les tarifs</a>
+      </p>
+    </div>
+  </section>
+
+  <!-- ====================================================================
+       QUI JE SUIS
+       ==================================================================== -->
+  <section class="section apropos">
+    <div class="contenant apropos__grille">
+      <figure class="photo photo--paysage apropos__photo reveler">
+        <img src={lien('images/cabinet-a-venir.svg')} alt={`Le cabinet de ${identite.nom} à ${identite.ville}`} width="600" height="400" />
+      </figure>
+
+      <div class="apropos__texte reveler">
+        <p class="oeil">Qui je suis ?</p>
+        <h2 class="titre-2 apropos__titre">Je reçois à {identite.ville} depuis {identite.depuis}.</h2>
+        <p class="pile">{accueil.aproposTexte}</p>
+        <p>{accueil.aproposTexte2}</p>
+        <ul class="apropos__pastilles">
+          <li class="pastille"><span class="chiffres">{formation.heures} h</span> de formation</li>
+          {formation.complements.map((c) => <li class="pastille">{c}</li>)}
+          <li class="pastille">Cabinet de plain-pied</li>
+        </ul>
+        <a class="apropos__lien" href={lien('qui-je-suis/')}>
+          Mon parcours en détail
+          <span class="motifs__fleche" aria-hidden="true" set:html={fleche} />
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================================================================
+       TEMOIGNAGES
+       ==================================================================== -->
+  <section class="section section--serree avis">
+    <div class="contenant">
+      <p class="oeil reveler">Ce qu’on m’en dit</p>
+      <ul class="avis__grille">
+        {temoignages.filter((t) => t.accueil).map((t, i) => (
+          <li class="carte avis__carte reveler" style={`transition-delay: ${i * 90}ms`}>
+            <blockquote class="avis__texte">{t.texte}</blockquote>
+            <p class="note avis__auteur">
+              {t.auteur}, {t.ville}
+              <span class="avis__motif">{t.motif}</span>
+            </p>
+          </li>
+        ))}
+      </ul>
+      {demo && <p class="micro avis__mention">Témoignages de démonstration, à remplacer par de vrais avis recueillis avec accord écrit.</p>}
+    </div>
+  </section>
+
+  <BandeauRdv>
+    <p class="note final__adresse">
+      {contact.adresse}, {contact.codePostal} {identite.ville}. {contact.distance} {contact.acces}
+    </p>
+  </BandeauRdv>
+
+</Base>
+
+<style>
+  /* ---------- Hero --------------------------------------------------- */
+  .hero { padding-block: clamp(2.5rem, 6vw, 5rem) clamp(4rem, 8vw, 7rem); }
+  .hero__grille {
+    display: grid;
+    /* minmax(0, …) : sans cela, une ligne de titre longue impose sa largeur
+       max-content a la colonne et ecrase la colonne visuelle. */
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, .8fr);
+    gap: clamp(2.5rem, 5vw, 4.5rem);
+    align-items: center;
+  }
+  /* Le titre est cale sur la largeur de sa colonne, pas sur celle de la page. */
+  .hero__titre {
+    font-size: clamp(2.05rem, 3.9vw, 3.2rem);
+    margin-block: var(--pas-5);
+  }
+  .hero__titre span { display: block; }
+  .hero__titre em { font-style: italic; }
+  .hero__chapo { max-width: 46ch; }
+  .hero__actions { display: flex; flex-wrap: wrap; gap: var(--pas-3); margin-top: var(--pas-6); }
+  .hero__dispo { margin-top: var(--pas-5); }
+
+  .hero__visuel { position: relative; padding-bottom: clamp(0rem, 6vw, 4.5rem); }
+
+  /* La fiche du bilan : l'element signature. */
+  .fiche {
+    background: var(--voile);
+    border: 1px solid var(--filet);
+    border-radius: var(--r-l);
+    padding: clamp(1.5rem, 2.6vw, 2.1rem);
+    box-shadow: var(--ombre-3);
+  }
+  .fiche__entete {
+    display: flex; align-items: baseline; justify-content: space-between;
+    gap: var(--pas-4); padding-bottom: var(--pas-4);
+    border-bottom: 1px solid var(--filet);
+  }
+  .fiche__meta { color: var(--accent); font-weight: 500; letter-spacing: .04em; }
+  .fiche__intro { margin-top: var(--pas-4); }
+  .fiche__liste { margin-top: var(--pas-3); }
+  .fiche__ligne {
+    display: flex; align-items: center; gap: var(--pas-3);
+    padding-block: .55rem;
+    border-bottom: 1px solid var(--filet);
+  }
+  .fiche__ligne:last-child { border-bottom: 0; }
+  .fiche__coche {
+    display: grid; place-items: center;
+    width: 1.4rem; height: 1.4rem; flex: 0 0 auto;
+    border-radius: 50%;
+    background: var(--accent); color: var(--voile);
+  }
+  .fiche__pied {
+    margin-top: var(--pas-4); padding-top: var(--pas-4);
+    border-top: 1px solid var(--filet);
+  }
+
+  .hero__portrait {
+    position: absolute; left: -3rem; bottom: 0;
+    width: 50%;
+    --inclinaison: -3deg;
+  }
+  .hero__preuve {
+    position: absolute; right: 0; bottom: 1.25rem;
+    max-width: 56%;
+    box-shadow: var(--ombre-2);
+  }
+
+  /* ---------- Entete de section -------------------------------------- */
+  .entete-section { max-width: 54ch; margin-bottom: clamp(2rem, 4vw, 3.25rem); }
+  .entete-section .titre-2 { margin-top: var(--pas-4); }
+  .entete-section__texte { margin-top: var(--pas-4); }
+
+  /* ---------- Limites ------------------------------------------------- */
+  .limites { background: var(--voile); border-block: 1px solid var(--filet); }
+  .limites__grille {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: clamp(1.5rem, 4vw, 3.5rem); align-items: center;
+  }
+  .limites__phrase { margin-top: var(--pas-3); max-width: 28ch; }
+  .limites__liste { display: grid; grid-template-columns: 1fr 1fr; gap: var(--pas-3) var(--pas-5); }
+  .limites__item { display: flex; align-items: baseline; gap: var(--pas-3); }
+  .limites__marque {
+    width: .6rem; height: 2px; flex: 0 0 auto;
+    background: var(--accent); border-radius: var(--r-pill);
+    transform: translateY(-.25rem);
+  }
+
+  /* ---------- Motifs -------------------------------------------------- */
+  .motifs__grille { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--pas-4); }
+  .motifs__carte { display: flex; flex-direction: column; height: 100%; text-decoration: none; }
+  .motifs__titre { margin-bottom: var(--pas-3); }
+  .motifs__accroche { font-weight: 500; }
+  .motifs__texte { margin-top: var(--pas-3); margin-bottom: var(--pas-5); }
+  .motifs__lien {
+    display: inline-flex; align-items: center; gap: var(--pas-2);
+    /* Les cartes teintees sont plus claires que le papier : l'accent courant
+       y tombe sous 4,5:1, on prend la variante foncee. */
+    margin-top: auto; font-size: .92rem; font-weight: 500; color: var(--accent-fonce);
+  }
+  .motifs__fleche {
+    display: grid; place-items: center;
+    width: 1.5rem; height: 1.5rem; border-radius: 50%;
+    background: var(--accent); color: var(--voile);
+    transition: transform var(--t-moyen) var(--courbe);
+  }
+  .motifs__carte:hover .motifs__fleche { transform: translateX(3px); }
+
+  /* ---------- Parcours ------------------------------------------------ */
+  .parcours__grille { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--pas-5); }
+  .parcours__etape { padding-top: var(--pas-4); border-top: 1px solid var(--filet-fort); }
+  .parcours__numero {
+    display: block; font-family: var(--police-titre);
+    font-size: .95rem; color: var(--accent); letter-spacing: .06em;
+  }
+  .parcours__titre { margin-top: var(--pas-3); }
+  .parcours__meta {
+    display: flex; gap: var(--pas-3); align-items: center;
+    margin-block: var(--pas-2) var(--pas-3);
+    color: var(--second); letter-spacing: .04em;
+  }
+  .parcours__prix {
+    padding: .15rem .5rem; border-radius: var(--r-pill);
+    background: rgb(255 255 255 / .1); color: var(--papier);
+  }
+  .parcours__pied { margin-top: clamp(2rem, 4vw, 3rem); max-width: 62ch; }
+  .parcours__lien { color: var(--accent); text-underline-offset: .25em; }
+
+  /* ---------- Qui je suis --------------------------------------------- */
+  .apropos__grille {
+    display: grid; grid-template-columns: .9fr 1.1fr;
+    gap: clamp(2rem, 5vw, 4rem); align-items: center;
+  }
+  .apropos__titre { margin-block: var(--pas-4) var(--pas-5); }
+  .apropos__texte > p + p { margin-top: var(--pas-4); }
+  .apropos__pastilles { display: flex; flex-wrap: wrap; gap: var(--pas-2); margin-top: var(--pas-5); }
+  .apropos__lien {
+    display: inline-flex; align-items: center; gap: var(--pas-2);
+    margin-top: var(--pas-5); font-weight: 500; color: var(--accent); text-decoration: none;
+  }
+  .apropos__lien:hover .motifs__fleche { transform: translateX(3px); }
+
+  /* ---------- Avis ---------------------------------------------------- */
+  .avis__grille { display: grid; grid-template-columns: 1fr 1fr; gap: var(--pas-4); margin-top: var(--pas-5); }
+  .avis__carte { display: flex; flex-direction: column; }
+  .avis__texte { font-family: var(--police-titre); font-size: 1.15rem; line-height: 1.55; }
+  .avis__auteur {
+    display: flex; align-items: center; gap: var(--pas-3);
+    margin-top: var(--pas-4); padding-top: var(--pas-4);
+    border-top: 1px solid var(--filet);
+  }
+  .avis__motif {
+    padding: .15rem .55rem; border-radius: var(--r-pill);
+    background: var(--brume); color: var(--encre); font-size: .78rem;
+  }
+  .avis__mention { margin-top: var(--pas-4); color: var(--second); }
+
+  /* ---------- Appel final --------------------------------------------- */
+  .final__adresse { margin-top: var(--pas-5); }
+
+  /* ---------- Adaptations --------------------------------------------- */
+  @media (max-width: 61rem) {
+    .hero__grille { grid-template-columns: 1fr; }
+    .hero__visuel { padding-bottom: 0; display: grid; gap: var(--pas-4); }
+    .hero__portrait { position: static; width: min(58%, 17rem); --inclinaison: -2deg; }
+    .hero__preuve { position: static; justify-self: start; }
+    .motifs__grille { grid-template-columns: 1fr 1fr; }
+    .parcours__grille { grid-template-columns: 1fr 1fr; }
+    .apropos__grille { grid-template-columns: 1fr; }
+    .limites__grille { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 40rem) {
+    .motifs__grille,
+    .parcours__grille,
+    .avis__grille,
+    .limites__liste { grid-template-columns: 1fr; }
+    .hero__actions .bouton { flex: 1 1 100%; justify-content: center; }
+    .fiche__entete { flex-direction: column; gap: var(--pas-1); }
+  }
+</style>

@@ -1,0 +1,291 @@
+# -----------------------------------------------------------------------------
+# Sveltia CMS  ·  espace d'edition du site
+#
+# Le CMS ecrit directement dans le depot GitHub. Chaque enregistrement fait un
+# commit, GitHub Actions reconstruit le site et le publie chez Hostinger.
+# Compter deux a trois minutes entre « Publier » et la mise en ligne.
+#
+# Connexion : bouton « Sign In with Token » sur l'ecran d'accueil, avec un jeton
+# personnel GitHub (portee `repo`). Pour une cliente non technique, voir la
+# section CMS du README : il faut alors installer l'authentificateur OAuth.
+# -----------------------------------------------------------------------------
+
+backend:
+  name: github
+  repo: julienduplouy90-wq/template-naturopathe
+  branch: main
+  commit_messages:
+    create: 'Contenu : ajout de {{collection}} « {{slug}} »'
+    update: 'Contenu : mise a jour de {{collection}} « {{slug}} »'
+    delete: 'Contenu : suppression de {{collection}} « {{slug}} »'
+    uploadMedia: 'Contenu : ajout du fichier {{path}}'
+    deleteMedia: 'Contenu : suppression du fichier {{path}}'
+
+media_folder: public/images
+public_folder: /images
+
+locale: fr
+
+collections:
+  # ---------------------------------------------------------------- Journal --
+  - name: journal
+    label: Journal
+    label_singular: Article
+    description: Les articles du site. Un article par fichier.
+    folder: src/contenu/articles
+    extension: md
+    format: yaml-frontmatter
+    create: true
+    slug: '{{slug}}'
+    preview_path: journal/{{slug}}
+    summary: '{{titre}}'
+    sortable_fields: [date, titre]
+    fields:
+      - label: Titre
+        name: titre
+        widget: string
+        hint: Huit mots maximum, sans deux-points decoratif.
+      - label: Chapo
+        name: chapo
+        widget: text
+        hint: Deux phrases. C'est ce qui s'affiche dans la liste des articles.
+      - label: Date
+        name: date
+        widget: datetime
+        date_format: DD/MM/YYYY
+        time_format: false
+        picker_utc: false
+      - label: Temps de lecture
+        name: lecture
+        widget: string
+        default: 5 min
+      - label: Motif concerne
+        name: motif
+        widget: select
+        options: ['Digestion', 'Fatigue et sommeil', 'Cycle feminin', 'Cadre']
+      - label: Brouillon
+        name: brouillon
+        widget: boolean
+        default: false
+        required: false
+        hint: Coche, l'article n'apparait pas sur le site.
+      - label: Texte
+        name: body
+        widget: markdown
+        hint: >
+          Un sous-titre tous les 250 a 350 mots. Pas de tiret cadratin,
+          pas de promesse de resultat, pas de vocabulaire medical.
+
+  # ----------------------------------------------------------------- Motifs --
+  - name: motifs
+    label: Ce que j'accompagne
+    label_singular: Motif
+    description: >
+      Une page par motif de consultation. Le nom du fichier devient l'adresse
+      de la page, il vaut mieux ne pas le changer une fois le site en ligne.
+    folder: src/contenu/motifs
+    extension: json
+    format: json
+    create: true
+    slug: '{{fields.slug}}'
+    preview_path: accompagnement/{{slug}}
+    summary: '{{titre}}'
+    fields:
+      - label: Ordre d'affichage
+        name: ordre
+        widget: number
+        value_type: int
+        min: 1
+      - label: Identifiant d'adresse
+        name: slug
+        widget: string
+        pattern: ['^[a-z0-9-]+$', 'Minuscules, chiffres et tirets seulement.']
+        hint: Doit etre identique au nom du fichier.
+      - label: Titre court
+        name: titre
+        widget: string
+        hint: Deux ou trois mots. Sert dans les cartes et la navigation.
+      - label: Titre long
+        name: titreLong
+        widget: string
+        hint: Le titre de la page. Decrit les symptomes, pas la methode.
+      - label: Teinte de la carte
+        name: teinte
+        widget: select
+        options: ['argile', 'brume', 'gres']
+        hint: Une teinte differente par motif, sinon les cartes se ressemblent.
+      - label: Accroche
+        name: accroche
+        widget: text
+      - label: Texte de la carte
+        name: texte
+        widget: text
+      - label: Chapo de la page
+        name: chapo
+        widget: text
+      - label: Vous vous reconnaissez ?
+        name: signes
+        widget: list
+        field: { label: Signe, name: signe, widget: string }
+        hint: Quatre lignes, ecrites avec les mots des personnes qui consultent.
+      - label: Ce qu'on regarde en seance
+        name: regarde
+        widget: list
+        field: { label: Point, name: point, widget: string }
+        hint: Quatre lignes.
+      - label: Ce que ca change
+        name: change
+        widget: text
+        hint: Donner un delai realiste. Aucune promesse de resultat.
+      - label: Encadre de prudence
+        name: prudence
+        widget: text
+        hint: Quand faut-il voir un medecin plutot que vous ? Obligatoire.
+      - label: Temoignage associe
+        name: temoignage
+        widget: number
+        value_type: int
+        min: 0
+        hint: Numero du temoignage dans la liste, en commencant a 0.
+
+  # ------------------------------------------------------------- Singletons --
+  - name: reglages
+    label: Le cabinet et les textes
+    files:
+      - name: cabinet
+        label: Informations du cabinet
+        file: src/contenu/cabinet.json
+        description: Coordonnees, horaires, formation, zone couverte.
+        fields:
+          - label: Identite
+            name: identite
+            widget: object
+            fields:
+              - { label: Nom, name: nom, widget: string }
+              - { label: Initiales, name: initiales, widget: string, hint: 'Deux lettres. Elles fabriquent le logo.' }
+              - { label: Metier, name: metier, widget: string }
+              - { label: Ville du cabinet, name: ville, widget: string }
+              - { label: Ville de reference, name: villeReference, widget: string, hint: 'La ville que les gens cherchent sur Google.' }
+              - { label: Departement, name: departement, widget: string }
+              - { label: En activite depuis, name: depuis, widget: number, value_type: int }
+              - { label: SIRET, name: siret, widget: string }
+              - { label: Je recois de nouvelles personnes, name: accepteNouveaux, widget: boolean, hint: 'Pilote la pastille verte sur l accueil.' }
+          - label: Contact
+            name: contact
+            widget: object
+            fields:
+              - { label: Adresse, name: adresse, widget: string }
+              - { label: Code postal, name: codePostal, widget: string }
+              - { label: Telephone affiche, name: telephone, widget: string }
+              - { label: Telephone cliquable, name: telephoneLien, widget: string, hint: 'Format international, par exemple +33600000000.' }
+              - { label: Courriel, name: email, widget: string }
+              - { label: Lien de l agenda, name: agenda, widget: string, required: false, hint: 'URL TidyCal ou Calendly. Vide, les boutons renvoient vers la page contact.' }
+              - { label: Acces, name: acces, widget: text }
+              - { label: Distance, name: distance, widget: text }
+          - label: Horaires
+            name: horaires
+            widget: list
+            fields:
+              - { label: Jours, name: jours, widget: string }
+              - { label: Horaire, name: h, widget: string }
+          - { label: Delai de reponse, name: delaiReponse, widget: string }
+          - label: Formation
+            name: formation
+            widget: object
+            fields:
+              - { label: Nombre d heures, name: heures, widget: number, value_type: int }
+              - { label: Intitule, name: ecole, widget: string }
+              - label: Formations complementaires
+                name: complements
+                widget: list
+                field: { label: Intitule, name: intitule, widget: string }
+          - label: Communes couvertes
+            name: zone
+            widget: list
+            field: { label: Commune, name: commune, widget: string }
+          - label: Site de demonstration
+            name: demo
+            widget: boolean
+            hint: >
+              Coche, le site reste invisible pour Google et affiche la mention
+              « site de demonstration ». A decocher seulement quand toutes les
+              informations reelles sont en place.
+
+      - name: accueil
+        label: Textes de l accueil
+        file: src/contenu/accueil.json
+        fields:
+          - { label: Surtitre du hero, name: heroOeil, widget: string }
+          - { label: Titre ligne 1, name: heroLigne1, widget: string }
+          - { label: Titre ligne 2, name: heroLigne2, widget: string }
+          - { label: 'Titre ligne 3 (début)', name: heroLigne3Avant, widget: string }
+          - { label: 'Titre ligne 3 (mot souligné)', name: heroLigne3Souligne, widget: string, hint: 'Un seul mot : c’est lui qui est souligné en couleur.' }
+          - { label: 'Titre ligne 3 (fin)', name: heroLigne3Apres, widget: string }
+          - { label: Chapo du hero, name: heroChapo, widget: text }
+          - { label: Phrase de disponibilite, name: heroDisponibilite, widget: string }
+          - { label: Titre de la fiche du bilan, name: bilanTitre, widget: string }
+          - { label: Pied de la fiche du bilan, name: bilanPied, widget: string }
+          - label: Ce que le bilan passe en revue
+            name: bilan
+            widget: list
+            field: { label: Ligne, name: ligne, widget: string }
+            hint: Six lignes. La mise en page est calee sur six.
+          - { label: Phrase des limites, name: limitesPhrase, widget: text }
+          - label: Ce que je ne fais pas
+            name: limites
+            widget: list
+            field: { label: Limite, name: limite, widget: string }
+            hint: Quatre lignes.
+          - { label: Titre de la section motifs, name: motifsTitre, widget: string }
+          - { label: Texte de la section motifs, name: motifsTexte, widget: text }
+          - { label: Titre du parcours, name: parcoursTitre, widget: string }
+          - label: Les etapes du parcours
+            name: parcours
+            widget: list
+            hint: Quatre etapes. L ordre est celui de l affichage.
+            fields:
+              - { label: Titre, name: titre, widget: string }
+              - { label: Duree, name: duree, widget: string }
+              - { label: Prix, name: prix, widget: string }
+              - { label: Texte, name: texte, widget: text }
+          - { label: 'Présentation (premier paragraphe)', name: aproposTexte, widget: text }
+          - { label: 'Présentation (second paragraphe)', name: aproposTexte2, widget: text }
+
+      - name: tarifs
+        label: Tarifs
+        file: src/contenu/tarifs.json
+        fields:
+          - label: Prestations
+            name: prestations
+            widget: list
+            fields:
+              - { label: Nom, name: nom, widget: string }
+              - { label: Detail, name: detail, widget: text }
+              - { label: Duree, name: duree, widget: string }
+              - { label: Prix, name: prix, widget: string }
+          - label: Reglement
+            name: paiement
+            widget: object
+            fields:
+              - { label: Moyens de paiement, name: moyens, widget: text }
+              - { label: Facture et mutuelles, name: facture, widget: text }
+              - { label: Annulation, name: annulation, widget: text }
+              - { label: Duree d un accompagnement, name: duree, widget: text }
+
+      - name: temoignages
+        label: Temoignages
+        file: src/contenu/temoignages.json
+        description: >
+          A remplacer par de vrais avis, recueillis avec l accord ecrit des
+          personnes. Prenom, initiale du nom, ville. Jamais de nom complet.
+        fields:
+          - label: Temoignages
+            name: liste
+            widget: list
+            summary: '{{auteur}} ({{ville}})'
+            fields:
+              - { label: Texte, name: texte, widget: text, hint: 'Trois a cinq lignes. Part d un probleme concret, finit sur un changement concret.' }
+              - { label: Auteur, name: auteur, widget: string }
+              - { label: Ville, name: ville, widget: string }
+              - { label: Motif, name: motif, widget: string }
+              - { label: Afficher sur l accueil, name: accueil, widget: boolean, default: false, hint: 'Deux temoignages maximum sur l accueil.' }

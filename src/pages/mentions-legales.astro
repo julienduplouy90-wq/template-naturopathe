@@ -1,0 +1,67 @@
+---
+import Base from '../layouts/Base.astro';
+import EnTetePage from '../components/EnTetePage.astro';
+import { identite, contact, demo, lien } from '../data/client.js';
+---
+
+<Base
+  titre="Mentions légales"
+  description="Mentions légales du site de Léa Cazaux, naturopathe à Juillan : éditeur, hébergeur, propriété intellectuelle et cadre de la pratique."
+>
+  <EnTetePage oeil="Qui édite ce site ?" titre="Mentions légales" />
+
+  <section class="section">
+    <div class="contenant prose">
+      {demo && (
+        <div class="prudence">
+          <p class="prudence__titre">Site de démonstration</p>
+          <p class="note">
+            {identite.nom} est une praticienne fictive. Le nom, l’adresse, le numéro de téléphone,
+            le SIRET, la formation, les tarifs et les témoignages présentés sur ce site sont des
+            marqueurs destinés à présenter un modèle de site, et ne correspondent à aucun cabinet réel.
+          </p>
+        </div>
+      )}
+
+      <h2>Éditeur du site</h2>
+      <p>
+        {identite.nom}, {identite.metier.toLowerCase()}, entreprise individuelle.<br />
+        {contact.adresse}, {contact.codePostal} {identite.ville}, France.<br />
+        SIRET : <span class="chiffres">{identite.siret}</span>.<br />
+        Téléphone : <span class="chiffres">{contact.telephone}</span>. Courriel : {contact.email}.
+      </p>
+      <p>Directrice de la publication : {identite.nom}.</p>
+
+      <h2>Hébergement</h2>
+      <p>
+        GitHub, Inc., 88 Colin P. Kelly Jr Street, San Francisco, CA 94107, États-Unis.
+      </p>
+
+      <h2>Cadre de la pratique</h2>
+      <p>
+        La naturopathie n’est pas une profession de santé réglementée en France. Les prestations
+        proposées sur ce site ne constituent ni un diagnostic, ni une prescription, ni un
+        traitement médical. Elles ne se substituent en aucun cas à une consultation médicale,
+        à un examen ou à un traitement en cours.
+      </p>
+      <p>
+        {identite.nom.split(' ')[0]} ne demande jamais d’interrompre un traitement prescrit par un
+        médecin et oriente vers un professionnel de santé chaque fois que la situation le justifie.
+      </p>
+
+      <h2>Propriété intellectuelle</h2>
+      <p>
+        Les textes et les photographies de ce site sont la propriété de son éditrice. Toute
+        reproduction, même partielle, requiert son accord écrit préalable.
+      </p>
+
+      <h2>Données personnelles</h2>
+      <p>
+        Ce site ne dépose aucun cookie, n’utilise aucun outil de mesure d’audience et n’enregistre
+        aucune donnée. Le formulaire de contact ouvre votre logiciel de messagerie avec un message
+        pré-rempli : rien n’est transmis à ce site. Le détail figure dans la
+        {' '}<a href={lien('politique-de-confidentialite/')}>politique de confidentialité</a>.
+      </p>
+    </div>
+  </section>
+</Base>

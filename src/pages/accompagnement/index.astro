@@ -1,0 +1,81 @@
+---
+import Base from '../../layouts/Base.astro';
+import EnTetePage from '../../components/EnTetePage.astro';
+import BandeauRdv from '../../components/BandeauRdv.astro';
+import { motifs, lien } from '../../data/client.js';
+
+const fleche = `<svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M1 6h9M6.5 2.5 10 6l-3.5 3.5"/></svg>`;
+---
+
+<Base
+  titre="Ce que j’accompagne"
+  description="Trois motifs de consultation à Juillan, près de Tarbes : digestion, fatigue et sommeil, cycle féminin. Ce que je regarde, ce que ça change, et quand il faut voir un médecin."
+>
+  <EnTetePage
+    oeil="Qu’est-ce qui vous amène ?"
+    titre="Trois motifs, pas quinze."
+    chapo="Une naturopathe qui annonce traiter les allergies, la perte de poids, l’acné et la performance sportive à la fois ne convainc personne. Je travaille sur trois terrains, et je dis quand ce n’est pas le mien."
+  />
+
+  <section class="section">
+    <div class="contenant">
+      <ul class="liste">
+        {motifs.map((m, i) => (
+          <li class="reveler" style={`transition-delay: ${i * 90}ms`}>
+            <a class="carte carte--teintee fiche" href={lien(`accompagnement/${m.slug}/`)} style={`--teinte: var(--${m.teinte})`}>
+              <div class="fiche__texte">
+                <h2 class="titre-3">{m.titre}</h2>
+                <p class="fiche__accroche">{m.accroche}</p>
+                <p class="note">{m.texte}</p>
+              </div>
+              <span class="fiche__lien">
+                En savoir plus
+                <span class="fiche__fleche" aria-hidden="true" set:html={fleche} />
+              </span>
+            </a>
+          </li>
+        ))}
+      </ul>
+
+      <div class="prose ailleurs reveler">
+        <h2>Et si ce n’est aucun des trois ?</h2>
+        <p>
+          Dites le moi pendant l’appel de 15 minutes. Selon la situation, je vous oriente vers un
+          médecin, vers un autre praticien, ou je vous dis simplement que ce n’est pas mon terrain.
+          C’est plus utile qu’une séance qui ne mène nulle part.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <BandeauRdv />
+</Base>
+
+<style>
+  .liste { display: grid; gap: var(--pas-4); }
+  .fiche {
+    display: grid; grid-template-columns: 1fr auto;
+    gap: var(--pas-5); align-items: center;
+    text-decoration: none;
+  }
+  .fiche__accroche { font-weight: 500; margin-block: var(--pas-3); }
+  .fiche__texte { max-width: 62ch; }
+  .fiche__lien {
+    display: inline-flex; align-items: center; gap: var(--pas-3);
+    font-weight: 500; font-size: .95rem; color: var(--accent-fonce);
+    white-space: nowrap;
+  }
+  .fiche__fleche {
+    display: grid; place-items: center;
+    width: 1.6rem; height: 1.6rem; border-radius: 50%;
+    background: var(--accent); color: var(--voile);
+    transition: transform var(--t-moyen) var(--courbe);
+  }
+  .fiche:hover .fiche__fleche { transform: translateX(3px); }
+
+  .ailleurs { margin-top: clamp(3rem, 6vw, 4.5rem); }
+
+  @media (max-width: 48rem) {
+    .fiche { grid-template-columns: 1fr; align-items: start; }
+  }
+</style>

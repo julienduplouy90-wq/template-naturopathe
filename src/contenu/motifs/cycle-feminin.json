@@ -1,0 +1,25 @@
+{
+  "ordre": 3,
+  "slug": "cycle-feminin",
+  "titre": "Cycle féminin",
+  "titreLong": "Syndrome prémenstruel, cycles déréglés, périménopause",
+  "teinte": "gres",
+  "accroche": "Syndrome prémenstruel, cycles déréglés, périménopause.",
+  "texte": "Un accompagnement qui vient en complément de votre suivi médical, jamais à sa place.",
+  "chapo": "Beaucoup de femmes arrivent informées, parfois plus que moi sur leur propre situation, et fatiguées qu’on leur parle comme à des débutantes. On part de ce que vous savez déjà.",
+  "signes": [
+    "Les jours qui précèdent les règles sont devenus difficiles à vivre",
+    "Les cycles se sont déréglés depuis quelques mois",
+    "Bouffées de chaleur et nuits hachées depuis un an ou deux",
+    "Vous souhaitez voir ce qui est possible avant d’envisager un traitement hormonal"
+  ],
+  "regarde": [
+    "Le rythme des repas et l’apport en protéines, souvent bas sans qu’on s’en rende compte",
+    "Le sommeil et la récupération, qui conditionnent le reste",
+    "L’activité physique, sa nature et son intensité selon les moments du cycle",
+    "La charge mentale et les périodes de tension prolongée"
+  ],
+  "change": "Ce sont les motifs où le travail est le plus progressif. On compte deux à trois mois avant de juger, et on garde votre médecin ou votre sage-femme dans la boucle.",
+  "prudence": "Des saignements inhabituels, des douleurs qui vous empêchent de travailler, un cycle qui disparaît : ce sont des motifs de consultation médicale. La naturopathie ne remplace ni un suivi gynécologique ni un traitement.",
+  "temoignage": 2
+}

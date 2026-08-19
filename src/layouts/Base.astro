@@ -1,0 +1,111 @@
+---
+// L'identite est importee APRES le socle : c'est ce qui lui permet de
+// redefinir les valeurs par defaut (rayons, corps de texte) et pas seulement
+// de completer celles qui manquent.
+import '../styles/socle.css';
+import '../styles/identites/silex.css';   // <- changer d'identite ici
+import Entete from '../components/Entete.astro';
+import PiedDePage from '../components/PiedDePage.astro';
+import { identite, demo } from '../data/client.js';
+
+const { titre, description } = Astro.props;
+const titreComplet = `${titre} | ${identite.nom}, ${identite.metier.toLowerCase()} à ${identite.ville}`;
+---
+
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{titreComplet}</title>
+    <meta name="description" content={description} />
+    {demo && <meta name="robots" content="noindex, nofollow" />}
+    <meta property="og:title" content={titreComplet} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta name="theme-color" content="#1B2830" />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%231B2830'/%3E%3Ctext x='16' y='22' font-family='Georgia,serif' font-size='15' fill='%23EBEAE5' text-anchor='middle'%3ELC%3C/text%3E%3C/svg%3E" />
+    <script is:inline>
+      // Pose la classe avant peinture : sans JS, aucun contenu n'est masque.
+      document.documentElement.classList.add('js');
+    </script>
+  </head>
+
+  <body>
+    <a class="saut-contenu" href="#contenu">Aller au contenu</a>
+    <Entete />
+    <main id="contenu">
+      <slot />
+    </main>
+    <PiedDePage />
+
+    <script is:inline>
+      (function () {
+        var reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        // Apparitions au defilement.
+        // Mesure directe plutot qu'IntersectionObserver : l'observateur ne
+        // rend pas la main dans un onglet non peint, ce qui laisserait la
+        // page vide. Ici, le pire cas affiche tout.
+        var cibles = [].slice.call(document.querySelectorAll('.reveler'));
+        if (reduit) {
+          cibles.forEach(function (el) { el.classList.add('vu'); });
+        } else {
+          var dernier = 0;
+          var verifier = function () {
+            dernier = Date.now();
+            var seuil = window.innerHeight * 0.88;
+            cibles = cibles.filter(function (el) {
+              if (el.getBoundingClientRect().top < seuil) { el.classList.add('vu'); return false; }
+              return true;
+            });
+            if (!cibles.length) {
+              window.removeEventListener('scroll', planifier);
+              window.removeEventListener('resize', planifier);
+            }
+          };
+          // Etranglement au temps plutot qu'a la frame : requestAnimationFrame
+          // est suspendu tant que l'onglet n'est pas peint.
+          var planifier = function () {
+            if (Date.now() - dernier > 80) verifier();
+          };
+          window.addEventListener('scroll', planifier, { passive: true });
+          window.addEventListener('resize', planifier);
+          verifier();
+        }
+
+        // En-tete collante : etat pose des que la page defile.
+        var entete = document.querySelector('[data-entete]');
+        if (entete) {
+          var majEntete = function () {
+            entete.classList.toggle('est-posee', window.scrollY > 24);
+          };
+          majEntete();
+          window.addEventListener('scroll', majEntete, { passive: true });
+        }
+
+        // Menu mobile.
+        var bascule = document.querySelector('[data-bascule-menu]');
+        var menu = document.querySelector('[data-menu]');
+        if (bascule && menu) {
+          var poser = function (ouvert) {
+            bascule.setAttribute('aria-expanded', String(ouvert));
+            menu.setAttribute('data-ouvert', String(ouvert));
+          };
+          bascule.addEventListener('click', function () {
+            poser(bascule.getAttribute('aria-expanded') !== 'true');
+          });
+          menu.addEventListener('click', function (e) {
+            if (e.target.closest('a')) poser(false);
+          });
+          document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape' && bascule.getAttribute('aria-expanded') === 'true') {
+              poser(false);
+              bascule.focus();
+            }
+          });
+        }
+      })();
+    </script>
+  </body>
+</html>

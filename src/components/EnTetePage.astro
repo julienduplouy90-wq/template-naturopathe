@@ -1,0 +1,34 @@
+---
+// En-tete commun a toutes les pages interieures.
+// L'oeil est une question, comme sur l'accueil : c'est ce qui tient le site ensemble.
+const { oeil, titre, chapo, teinte } = Astro.props;
+---
+
+<!-- Sur fond teinte, l'accent courant tombe sous 4,5:1 : on bascule la
+     variable pour toute la section plutot que de retoucher chaque element. -->
+<section
+  class="tete"
+  style={teinte ? `--fond-tete: var(--${teinte}); --accent: var(--accent-fonce)` : undefined}
+>
+  <div class="contenant tete__bloc">
+    <p class="oeil entree" style="--d: 60ms">{oeil}</p>
+    <h1 class="display tete__titre entree" style="--d: 180ms">{titre}</h1>
+    {chapo && <p class="chapo tete__chapo entree" style="--d: 320ms">{chapo}</p>}
+    <slot />
+  </div>
+</section>
+
+<style>
+  .tete {
+    background: var(--fond-tete, transparent);
+    padding-block: clamp(2.5rem, 6vw, 4.5rem) clamp(2.5rem, 5vw, 4rem);
+    border-bottom: 1px solid var(--filet);
+  }
+  .tete__bloc { max-width: 60rem; }
+  .tete__titre {
+    font-size: clamp(2.1rem, 5vw, 3.6rem);
+    margin-block: var(--pas-4) var(--pas-5);
+    max-width: 20ch;
+  }
+  .tete__chapo { max-width: 56ch; }
+</style>
