@@ -1,0 +1,4 @@
+# Le CMS et GitHub Actions travaillent en LF : on normalise pour eviter
+# des diffs entiers a chaque enregistrement depuis /admin/.
+* text=auto eol=lf
+*.woff2 binary
