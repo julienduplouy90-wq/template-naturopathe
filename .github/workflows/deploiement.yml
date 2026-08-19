@@ -42,6 +42,10 @@ jobs:
 
       - name: Construire le site
         run: npm run build
+        env:
+          # Variable de depot (Settings > Secrets and variables > Actions >
+          # Variables), pas un secret : c'est l'adresse publique du site.
+          SITE_URL: ${{ vars.SITE_URL }}
 
       - name: Vérifier que le build a produit quelque chose
         run: test -f dist/index.html || (echo "dist/index.html manquant" && exit 1)

@@ -1,0 +1,54 @@
+# Configuration Apache pour l'hebergement mutualise Hostinger.
+# Ce fichier est copie tel quel dans dist/ par Astro.
+
+# --- Page 404 ---------------------------------------------------------------
+# Astro traite 404.astro a part : il produit /404.html a la racine, sans
+# passer par le format en dossiers. Sans cette ligne, Apache sert sa propre
+# page d'erreur au lieu de la notre.
+ErrorDocument 404 /404.html
+
+# --- HTTPS ------------------------------------------------------------------
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  # Les deux conditions evitent une boucle de redirection quand Hostinger
+  # termine le TLS en amont et transmet la requete en clair au serveur.
+  RewriteCond %{HTTPS} !=on
+  RewriteCond %{HTTP:X-Forwarded-Proto} !=https
+  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+</IfModule>
+
+# --- Compression ------------------------------------------------------------
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css text/plain text/xml
+  AddOutputFilterByType DEFLATE application/javascript application/json
+  AddOutputFilterByType DEFLATE image/svg+xml
+  # Les woff2 sont deja compresses : les repasser ne gagne rien et coute du CPU.
+</IfModule>
+
+# --- Cache ------------------------------------------------------------------
+<IfModule mod_expires.c>
+  ExpiresActive On
+  # Les fichiers de /_astro/ portent une empreinte dans leur nom : leur contenu
+  # ne change jamais, on peut les garder un an.
+  <FilesMatch "\.(woff2|css|js)$">
+    ExpiresDefault "access plus 1 year"
+    Header set Cache-Control "public, immutable"
+  </FilesMatch>
+  <FilesMatch "\.(jpg|jpeg|png|webp|avif|svg|ico)$">
+    ExpiresDefault "access plus 1 month"
+  </FilesMatch>
+  # Le HTML doit pouvoir changer a chaque publication.
+  <FilesMatch "\.html$">
+    ExpiresDefault "access plus 0 seconds"
+    Header set Cache-Control "public, max-age=0, must-revalidate"
+  </FilesMatch>
+</IfModule>
+
+# --- Divers -----------------------------------------------------------------
+# Pas de listing de repertoire.
+Options -Indexes
+
+<IfModule mod_headers.c>
+  Header set X-Content-Type-Options "nosniff"
+  Header set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>

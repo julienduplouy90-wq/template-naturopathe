@@ -10,6 +10,8 @@ import { identite, demo } from '../data/client.js';
 
 const { titre, description } = Astro.props;
 const titreComplet = `${titre} | ${identite.nom}, ${identite.metier.toLowerCase()} à ${identite.ville}`;
+// Astro.site vient de SITE_URL au moment du build.
+const canonique = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : undefined;
 ---
 
 <!doctype html>
@@ -20,9 +22,12 @@ const titreComplet = `${titre} | ${identite.nom}, ${identite.metier.toLowerCase(
     <title>{titreComplet}</title>
     <meta name="description" content={description} />
     {demo && <meta name="robots" content="noindex, nofollow" />}
+    {canonique && <link rel="canonical" href={canonique} />}
     <meta property="og:title" content={titreComplet} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
+    <meta property="og:locale" content="fr_FR" />
+    {canonique && <meta property="og:url" content={canonique} />}
     <meta name="theme-color" content="#1B2830" />
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%231B2830'/%3E%3Ctext x='16' y='22' font-family='Georgia,serif' font-size='15' fill='%23EBEAE5' text-anchor='middle'%3ELC%3C/text%3E%3C/svg%3E" />
     <script is:inline>
