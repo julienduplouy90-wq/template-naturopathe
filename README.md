@@ -92,7 +92,13 @@ pour toute l'agence** puis réutilisée par tous les sites clients.
    chaque nouveau site client.
 
 Tant que `base_url` est absent, seule la connexion par jeton personnel fonctionne : pratique pour
-toi en développement, inutilisable par une cliente.
+toi, inutilisable par une cliente. Le jeton à utiliser est un **fine-grained token** limité au seul
+dépôt du site, permission `Contents: Read and write`, jamais un jeton classique de portée `repo`.
+
+**Pour travailler sans aucun identifiant** (recette et démonstration) : `npm run dev`, puis ouvrir
+`http://localhost:4350/admin/index.html` dans Chrome ou Edge et cliquer sur « Travailler avec un
+dépôt local ». Sveltia passe par l'API File System Access du navigateur, il n'y a pas de serveur
+mandataire à lancer.
 
 **L'accès de la cliente.** Le CMS écrit dans le dépôt GitHub de son site. Il lui faut donc un
 compte GitHub gratuit, invité en collaboratrice sur son dépôt à elle. C'est une inscription de cinq
