@@ -73,12 +73,35 @@ ne résout pas les dossiers). Il tourne sur **Sveltia CMS 0.193.1, auto-héberg�
 `public/admin/sveltia-cms.js` : pas de CDN, donc pas de mise à jour surprise qui casse l'édition
 chez une cliente.
 
-**Connexion.** Bouton « Se connecter avec un jeton d'accès », avec un jeton personnel GitHub de
-portée `repo`. C'est suffisant pour toi et pour une cliente à l'aise avec l'informatique. Pour une
-cliente qui ne l'est pas, il faut installer l'authentificateur OAuth
-(`sveltia/sveltia-cms-auth`, un worker Cloudflare gratuit) et ajouter `base_url` dans
-`public/admin/config.yml` : elle clique alors sur « Se connecter avec GitHub » et ne voit jamais de
-jeton.
+### La connexion
+
+Le CMS est destiné aux clientes. Elles cliquent sur **« Se connecter avec GitHub »** et ne voient
+jamais de jeton. Cela demande une infrastructure d'authentification, **à installer une seule fois
+pour toute l'agence** puis réutilisée par tous les sites clients.
+
+**Le montage, une fois pour toutes :**
+
+1. **Une application OAuth GitHub**, sur le compte de l'agence :
+   `Settings` → `Developer settings` → `OAuth Apps` → `New OAuth App`.
+   URL de rappel : `https://auth.elyostudio.fr/callback` (l'adresse du worker ci-dessous).
+   Garder l'identifiant client et le secret client.
+2. **L'authentificateur** [`sveltia/sveltia-cms-auth`](https://github.com/sveltia/sveltia-cms-auth),
+   un worker Cloudflare gratuit. Le déployer, y déclarer `GITHUB_CLIENT_ID`, `GITHUB_CLIENT_SECRET`
+   et `ALLOWED_DOMAINS`, puis lui donner un sous-domaine stable, par exemple `auth.elyostudio.fr`.
+3. **Décommenter `base_url`** dans `public/admin/config.yml`. C'est la seule ligne à recopier dans
+   chaque nouveau site client.
+
+Tant que `base_url` est absent, seule la connexion par jeton personnel fonctionne : pratique pour
+toi en développement, inutilisable par une cliente.
+
+**L'accès de la cliente.** Le CMS écrit dans le dépôt GitHub de son site. Il lui faut donc un
+compte GitHub gratuit, invité en collaboratrice sur son dépôt à elle. C'est une inscription de cinq
+minutes, à faire au moment de la livraison, et c'est le seul point de friction du dispositif : avec
+un CMS adossé à git, il n'y a pas de contournement. En échange, elle n'a ni base de données à
+sauvegarder, ni extension à mettre à jour, ni surface d'attaque.
+
+`ALLOWED_DOMAINS` du worker doit lister les domaines autorisés à s'authentifier. Y ajouter chaque
+nouveau site client, sinon le bouton renvoie une erreur.
 
 **Ce qu'elle peut modifier** : les articles du journal, les pages de motif, les informations du
 cabinet, les textes de l'accueil, les tarifs, les témoignages. **Ce qu'elle ne peut pas casser** :
