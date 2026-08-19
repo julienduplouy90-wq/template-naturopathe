@@ -65,7 +65,7 @@ l'application dépend de l'adresse du worker.
 
 [`sveltia/sveltia-cms-auth`](https://github.com/sveltia/sveltia-cms-auth), gratuit sur Cloudflare
 Workers. Bouton « Deploy » du dépôt, ou `wrangler deploy` en local. Cloudflare renvoie une adresse
-du type `https://sveltia-cms-auth.<sous-domaine>.workers.dev`.
+du type `https://sveltia-cms-auth.julien-duplouy90.workers.dev`.
 
 Un domaine personnalisé, par exemple `auth.elyostudio.fr`, est facultatif. Il rend l'écran de
 connexion plus rassurant pour une cliente et permet de changer d'hébergeur du worker sans toucher
@@ -93,10 +93,10 @@ authentificateur. **Y ajouter chaque nouveau domaine client**, sinon le bouton r
 
 ### 4. Brancher le site
 
-Dans `public/admin/config.yml`, sous `backend`, décommenter et corriger :
+Dans `public/admin/config.yml`, sous `backend` :
 
 ```yaml
-base_url: https://sveltia-cms-auth.<sous-domaine>.workers.dev
+base_url: https://sveltia-cms-auth.julien-duplouy90.workers.dev
 ```
 
 C'est la seule ligne à recopier dans chaque nouveau site client.
