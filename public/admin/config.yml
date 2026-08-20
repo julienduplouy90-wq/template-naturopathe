@@ -30,21 +30,20 @@ backend:
     uploadMedia: 'Contenu : ajout du fichier {{path}}'
     deleteMedia: 'Contenu : suppression du fichier {{path}}'
 
-# Edition en local, sans aucun identifiant. Lancer `npm run dev`, ouvrir
+# Edition en local, sans aucun identifiant : lancer `npm run dev`, ouvrir
 # http://localhost:4350/admin/index.html dans Chrome ou Edge, puis cliquer sur
 # « Travailler avec un depot local » et designer ce dossier. Les modifications
-# sont ecrites directement dans les fichiers. Sans effet en ligne.
+# sont ecrites directement dans les fichiers.
 #
-# Sveltia passe par l'API File System Access du navigateur : il n'y a plus de
-# serveur mandataire a lancer, contrairement a Decap.
-local_backend: true
+# Rien a declarer ici pour cela : Sveltia propose l'option d'office sur
+# localhost, via l'API File System Access du navigateur. L'option
+# `local_backend` de Decap n'est pas prise en charge et serait ignoree, tout
+# comme `locale`, la langue de l'interface suivant celle du navigateur.
 
 publish_mode: simple
 
 media_folder: public/images
 public_folder: /images
-
-locale: fr
 
 collections:
   # ---------------------------------------------------------------- Journal --

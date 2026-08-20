@@ -148,7 +148,8 @@ C'est la seule ligne à recopier dans chaque nouveau site client.
 
 `npm run dev`, puis `http://localhost:4350/admin/index.html` dans Chrome ou Edge, et
 « Travailler avec un dépôt local » en désignant ce dossier. Sveltia écrit directement dans les
-fichiers, sans jeton ni worker. C'est la façon de vérifier les six sections avant de livrer.
+fichiers, sans jeton ni worker. Rien à déclarer dans la configuration pour cela : Sveltia propose
+l'option d'office sur localhost. C'est la façon de vérifier les six sections avant de livrer.
 
 En développement, `/admin/` renvoie 404 : le serveur Astro ne résout pas les dossiers, il faut
 `/admin/index.html`. En ligne, Apache s'en charge et `/admin/` fonctionne.
