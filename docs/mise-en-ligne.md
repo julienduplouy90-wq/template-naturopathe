@@ -80,16 +80,51 @@ aux sites.
 
 ### 3. Renseigner le worker
 
-Tableau de bord Cloudflare → le worker → `Settings` → `Variables` :
+Passer par la ligne de commande plutôt que par le tableau de bord : c'est vérifiable, et le
+tableau de bord perd silencieusement une variable de temps en temps.
 
-| Nom | Valeur |
-|---|---|
-| `GITHUB_CLIENT_ID` | l'identifiant client |
-| `GITHUB_CLIENT_SECRET` | le secret client, **coché « Encrypt »** |
-| `ALLOWED_DOMAINS` | les domaines autorisés, séparés par des virgules, jokers acceptés |
+```bash
+npx wrangler versions secret put GITHUB_CLIENT_ID --name sveltia-cms-auth
+npx wrangler versions secret put GITHUB_CLIENT_SECRET --name sveltia-cms-auth
+npx wrangler versions secret put ALLOWED_DOMAINS --name sveltia-cms-auth
+```
+
+Chaque commande demande la valeur, puis **crée une version sans la publier**. Il faut ensuite
+déployer la dernière :
+
+```bash
+npx wrangler versions deploy --name sveltia-cms-auth
+```
+
+Pièges rencontrés :
+
+- `wrangler secret put` (sans `versions`) échoue quand une version non déployée traîne. Utiliser
+  `wrangler versions secret put`, toujours.
+- Une variable ajoutée dans le tableau de bord **peut ne pas être enregistrée** sans message
+  d'erreur. Vérifier avec `npx wrangler secret list --name sveltia-cms-auth`, qui doit lister les
+  trois noms.
 
 `ALLOWED_DOMAINS` est le garde-fou : sans lui, n'importe quel site pourrait se servir de ton
-authentificateur. **Y ajouter chaque nouveau domaine client**, sinon le bouton renvoie une erreur.
+authentificateur sous ton application OAuth. Valeur actuelle :
+
+```
+localhost,*.elyostudio.fr
+```
+
+**Y ajouter chaque nouveau domaine client**, sinon la connexion est refusée avec
+`UNSUPPORTED_DOMAIN`. Ne jamais y mettre `*.hostingersite.com` : ça ouvrirait l'authentificateur à
+tous les clients d'Hostinger.
+
+### Vérifier le worker sans navigateur
+
+```bash
+curl -s -o /dev/null -w "%{http_code} %{redirect_url}\n" \
+  "https://sveltia-cms-auth.julien-duplouy90.workers.dev/auth?provider=github&site_id=localhost"
+```
+
+Un `302` vers `github.com/login/oauth/authorize` signifie que tout est en place. Un `200` cache une
+erreur dans le corps de la réponse : `MISCONFIGURED_CLIENT` pour des identifiants absents,
+`UNSUPPORTED_DOMAIN` pour un domaine hors liste.
 
 ### 4. Brancher le site
 

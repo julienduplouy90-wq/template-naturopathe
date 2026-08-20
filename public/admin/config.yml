@@ -6,11 +6,11 @@
 # Compter deux a trois minutes entre « Publier » et la mise en ligne.
 #
 # Connexion de la cliente : bouton « Se connecter avec GitHub ». Elle ne voit
-# jamais de jeton. Cela suppose que `base_url` ci-dessous pointe vers
-# l'authentificateur de l'agence (voir la section CMS du README).
+# jamais de jeton. L'authentificateur de l'agence est renseigne plus bas dans
+# `base_url` (voir docs/mise-en-ligne.md, partie B).
 #
-# Tant que `base_url` est absent, seule la connexion par jeton personnel
-# fonctionne : c'est utilisable par toi, pas par une cliente.
+# Le domaine du site doit figurer dans ALLOWED_DOMAINS du worker, sinon la
+# connexion est refusee avec UNSUPPORTED_DOMAIN.
 # -----------------------------------------------------------------------------
 
 backend:
