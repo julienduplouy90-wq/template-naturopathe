@@ -152,3 +152,27 @@ fichiers, sans jeton ni worker. C'est la façon de vérifier les six sections av
 
 En développement, `/admin/` renvoie 404 : le serveur Astro ne résout pas les dossiers, il faut
 `/admin/index.html`. En ligne, Apache s'en charge et `/admin/` fonctionne.
+
+---
+
+## Publication actuelle : Cloudflare Pages
+
+Le site de démonstration est en ligne sur **<https://naturo-template-dhq.pages.dev>**, publié
+depuis le compte Cloudflare de l'agence. C'est une solution de domaine temporaire qui ne demande
+ni FTP ni hPanel.
+
+Republier après une modification :
+
+```bash
+SITE_URL=https://naturo-template-dhq.pages.dev npm run build
+npx wrangler pages deploy dist --project-name naturo-template --branch main --commit-dirty=true
+```
+
+Cloudflare Pages sert nativement `404.html` avec le bon code de statut et force le HTTPS : le
+`.htaccess` du dossier `public/` ne sert que sur Hostinger, il est simplement ignoré ici.
+
+Le domaine est déclaré dans `ALLOWED_DOMAINS` du worker, apex et sous-domaines, pour que les
+déploiements de prévisualisation acceptent aussi la connexion au CMS.
+
+La bascule vers Hostinger reste possible sans rien changer au dépôt : créer le site et le compte
+FTP dans hPanel, poser les quatre secrets, et le workflow prend le relais.
