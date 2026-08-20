@@ -177,3 +177,23 @@ déploiements de prévisualisation acceptent aussi la connexion au CMS.
 
 La bascule vers Hostinger reste possible sans rien changer au dépôt : créer le site et le compte
 FTP dans hPanel, poser les quatre secrets, et le workflow prend le relais.
+
+---
+
+## Accès au dépôt : la cause d'échec la plus fréquente
+
+Le CMS peut authentifier correctement et **quand même** afficher « Vous n'avez pas accès au dépôt ».
+L'authentification et l'autorisation sont deux choses distinctes.
+
+Trois causes, par ordre de fréquence :
+
+1. **Jeton fin mal cadré.** Le champ *Repository access* vaut par défaut « Public repositories »,
+   qui ne donne aucun accès à un dépôt privé et seulement la **lecture** sur un dépôt public.
+   Il faut « Only select repositories » plus la permission `Contents: Read and write`.
+2. **Mauvais compte GitHub** connecté dans le navigateur. Signe distinctif : les deux méthodes de
+   connexion échouent exactement pareil.
+3. **Collaboratrice pas encore invitée** sur le dépôt, pour une cliente.
+
+Le dépôt de démonstration `template-naturopathe` est **public**, la praticienne étant fictive et le
+site en `noindex`. Un vrai site client reste privé : c'est alors le point 1 qu'il faut vérifier en
+premier au moment de la livraison.
