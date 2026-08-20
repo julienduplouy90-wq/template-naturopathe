@@ -108,7 +108,7 @@ Pièges rencontrés :
 authentificateur sous ton application OAuth. Valeur actuelle :
 
 ```
-localhost,*.elyostudio.fr
+localhost,*.elyostudio.fr,naturo-template-dhq.pages.dev,*.naturo-template-dhq.pages.dev
 ```
 
 **Y ajouter chaque nouveau domaine client**, sinon la connexion est refusée avec
